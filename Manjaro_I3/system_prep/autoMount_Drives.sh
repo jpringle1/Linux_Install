@@ -9,13 +9,13 @@ sudo mkdir /media/$extraLabel
 sudo mkdir /media/$gamesLabel
 
 # backup fstab
-fstab_dir=/etc/fstab
-cd $fstab_dir
+
+cd /etc
 sudo cp fstab fstab.backup
 
 # append new entry to fstab
-echo "UUID=$extraUUID /media/$extraLabel   ext4   defaults 0 0" | sudo tee -a $fstab_dir
-echo "UUID=$gamesUUID /media/$gamesLabel   ext4   defaults 0 0" | sudo tee -a $fstab_dir
+echo "UUID=$extraUUID /media/$extraLabel   ext4   defaults 0 0" | sudo tee -a /etc/fstab
+echo "UUID=$gamesUUID /media/$gamesLabel   ext4   defaults 0 0" | sudo tee -a /etc/fstab
 
 # reload systemctl
 systemctl daemon-reload
