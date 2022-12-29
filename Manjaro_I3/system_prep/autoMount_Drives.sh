@@ -23,3 +23,5 @@ systemctl daemon-reload
 
 sudo mount UUID=$extraUUID /media/$extraLabels
 sudo mount UUID=$gamesUUID /media/$gamesLabel
+
+echo "finished"
