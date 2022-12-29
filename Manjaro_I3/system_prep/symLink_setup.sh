@@ -7,9 +7,11 @@ dropbox_main_dir=/media/ExtraSSD/Dropbox
 
 link_dir=~/Dropbox/"PC files"
 
-
+echo "creating dropbox link"
 ln -s $dropbox_main_dir ~/Dropbox
 
+
+echo "creating media links"
 sudo rm -R ~/Pictures
 sudo ln -s ~/Dropbox/"PC files"/Pictures ~/Pictures
 sudo rm -R ~/Documents
@@ -20,3 +22,4 @@ sudo rm -R ~/Desktop
 sudo ln -s ~/Dropbox/"PC files"/Desktop ~/Desktop
 
 
+echo "finished symlink_setup"
