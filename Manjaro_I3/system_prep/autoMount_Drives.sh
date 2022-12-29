@@ -5,6 +5,7 @@ extraLabel="ExtraSSD"
 gamesUUID="e955d6bb-556d-406b-8d40-f3f0c3e5dc3d"
 gamesLabel="Games"
 
+sudo mkdir /media
 sudo mkdir /media/$extraLabel
 sudo mkdir /media/$gamesLabel
 
@@ -19,9 +20,12 @@ echo "UUID=$gamesUUID /media/$gamesLabel   ext4   defaults 0 0" | sudo tee -a /e
 
 # reload systemctl
 systemctl daemon-reload
+
 # mount drive NOW instead of waiting for reboot
 
-sudo mount UUID=$extraUUID /media/$extraLabels
+sudo mount UUID=$extraUUID /media/$extraLabel
 sudo mount UUID=$gamesUUID /media/$gamesLabel
+
+
 
 echo "finished"
