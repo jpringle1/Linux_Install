@@ -7,7 +7,7 @@ echo "refreshing database"
 sudo pacman -Syu --noconfirm
 
 echo "configuring firefox"
+rm -R ~/.mozilla
 mkdir ~/.mozilla
-sudo rm -R ~/.mozilla/firefox
-sudo ln -s /media/ExtraSSD/Dropbox/PC_files/Projects/Tech/LiveConfigs/firefox ~/.mozilla/firefox
+sudo ln -s $live_configs_directory"/firefox" ~/.mozilla/firefox
 

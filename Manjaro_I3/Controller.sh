@@ -1,25 +1,21 @@
 #!/bin/bash
 
-dropbox_main_dir=/media/ExtraSSD/Dropbox
-
+dropbox_directory="/media/ExtraSSD/Dropbox"
+controller_directory=$(pwd)
+live_configs_directory=$dropbox_directory"/PC_files/Projects/Tech/LiveConfigs"
 
 echo "Commencing system_prep scripts"
 cd system_prep
-directory=pwd
-echo pwd
-
 echo "executing systemGeneral"
-./systemGeneral.sh
+./system_ui.sh
 echo "executing autoMount_Drives"
-#./autoMount_Drives.sh
+#./automount_drives.sh
 echo "executing symLink_setup"
-./symLink_setup.sh
+./symlink_setup.sh
 
-cd ..
+cd $controller_directory
 echo "Commencing programs scripts"
 cd programs
-directory=pwd
-echo "Directory: $pwd"
 echo "executing Flatpak installs"
 ./flatpak_installs.sh
 echo "executing pacman installs"
@@ -27,11 +23,9 @@ echo "executing pacman installs"
 echo "executing yay installs"
 ./yay_installs.sh
 
+cd $controller_directory
 echo "Commencing system_post scripts"
-cd ..
 cd system_post
-directory=pwd
-echo "Directory: $pwd"
 ./key_bindings.sh
 ./install_pipewire.sh
 ./setup_autostart.sh

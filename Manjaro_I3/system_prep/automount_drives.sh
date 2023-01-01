@@ -5,9 +5,8 @@ extraLabel="ExtraSSD"
 gamesUUID="e955d6bb-556d-406b-8d40-f3f0c3e5dc3d"
 gamesLabel="Games"
 
-sudo mkdir /media
-sudo mkdir /media/$extraLabel
-sudo mkdir /media/$gamesLabel
+sudo mkdir -p "/media/"$extraLabel
+sudo mkdir -p "/media/"$gamesLabel
 
 # backup fstab
 

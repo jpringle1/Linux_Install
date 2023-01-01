@@ -1,9 +1,11 @@
-sudo rm -R ~/.config/kglobalshortcutsrc && sudo ln -s /media/ExtraSSD/Dropbox/"PC files"/Projects/Tech/LiveConfigs/kglobalshortcutsrc ~/.config/kglobalshortcutsrc
+echo "removing kglobalshortcutsrc"
+link_target="~/.config/kglobalshortcutsrc"
+sudo rm -R $link_target
+echo "making link of kglobalshortcutsrc"
+sudo ln -s $live_configs_directory"/kglobalshortcutsrc" $link_target
 
 
-config_store=$dropbox_main_dir/media/ExtraSSD/Dropbox/"PC files"/Projects/Tech/LiveConfigs
-link_dir=~/.config/kglobalshortcutsrc
-sudo rm -R $link_dir && sudo ln -s $config_store/keyboard_bindings $link_dir
-
-
-
+# ctrl+alt+arrow = move to beginning/end of line (Home/End)
+# ctrl+shift+alt+arrow =select from cursor to beginning/end of line (Shift+Home/End)
+# meta+space = krunner
+# klipper - bind to mod+v
