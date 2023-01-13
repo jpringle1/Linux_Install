@@ -1,6 +1,5 @@
 #!/bin/bash
-config_dir="configs"
-config_store=$dropbox_directory"/PC_files/Projects/Tech/LiveConfigs"
+
 
 echo "commencing configurations"
 echo "configuring dropbox"
