@@ -34,6 +34,7 @@ echo "executing yay installs"
 cd $controller_directory
 echo "Commencing system_post scripts"
 cd system_post
+./bluetooth.sh $live_configs_directory
 ./key_bindings.sh $live_configs_directory
 ./install_pipewire.sh
 ./autostart_programs.sh
