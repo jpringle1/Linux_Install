@@ -1,10 +1,12 @@
 #!/bin/bash
 
 
-dropbox_directory="/media/ExtraSSD/Dropbox"
-controller_directory=$(pwd)
-live_configs_directory=$dropbox_directory"/PC_files/Projects/Tech/LiveConfigs"
-cd $controller_directory
-cd programs
+userdata_dir="/userdata/171680367"
 
-./steam_configure.sh $live_configs_directory
+directory_store=("/config" "/compatibilitytools.d" "$userdata_dir/config" "$userdata_dir/7/remote")
+# echo "directory_store = "${directory_store[@]}
+
+for item in ${directory_store[@]}
+do
+echo $item
+done
