@@ -1,7 +1,0 @@
-[Desktop Entry]
-Exec=/home/joep/.dropbox-dist/dropboxd
-Icon=dialog-scripts
-Name=dropboxd
-Path=
-Type=Application
-X-KDE-AutostartScript=true
