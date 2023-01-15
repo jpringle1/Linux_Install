@@ -12,6 +12,8 @@ for item in $directory_store
 do
     store_link=$steam_dir$item
     store_source=$steam_live_config_dir
+    echo "store_link="$store_link
+    echo "store_source="$store_source
     mkdir -p $store_link
     sudo rm -R $store_link
     sudo ln -s $store_source $store_link
