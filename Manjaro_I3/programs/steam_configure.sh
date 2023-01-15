@@ -10,7 +10,7 @@ echo "directory_store = "$directory_store
 
 for item in $directory_store
 do
-    store_link=$steam_dir$directory_store[$item]
+    store_link=$steam_dir$item
     store_source=$steam_live_config_dir
     mkdir -p $store_link
     sudo rm -R $store_link
