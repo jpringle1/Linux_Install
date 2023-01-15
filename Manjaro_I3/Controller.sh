@@ -6,6 +6,8 @@ live_configs_directory=$dropbox_directory"/PC_files/Projects/Tech/LiveConfigs"
 
 echo "Commencing system_prep scripts"
 cd system_prep
+echo "executing git_setup"
+./git_setup.sh
 echo "executing systemGeneral"
 ./system_ui.sh
 echo "executing autoMount_Drives"
