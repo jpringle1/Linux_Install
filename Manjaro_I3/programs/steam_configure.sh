@@ -17,4 +17,4 @@ do
     sudo ln -s $store_source $store_link
 done
 
-sudo pacman -S --noconfirm steam
+

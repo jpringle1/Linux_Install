@@ -21,10 +21,11 @@ echo "Commencing programs scripts"
 cd programs
 echo "executing Flatpak installs"
 ./flatpak_installs.sh
+echo "executing steam_configure"
+./steam_configure.sh $live_configs_directory
 echo "executing pacman installs"
 ./pacman_installs.sh $live_configs_directory
 
-./steam_configure.sh $live_configs_directory
 echo "executing yay installs"
 ./yay_installs.sh
 
