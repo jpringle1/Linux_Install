@@ -11,7 +11,7 @@ echo "executing git_setup"
 echo "executing systemGeneral"
 ./system_ui.sh
 echo "executing autoMount_Drives"
-#./automount_drives.sh
+./automount_drives.sh
 echo "executing symLink_setup"
 ./symlink_setup.sh $dropbox_directory
 
