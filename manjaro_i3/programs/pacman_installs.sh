@@ -7,7 +7,7 @@ echo "refreshing database"
 sudo pacman -Sy --noconfirm
 
 echo "Remove onlyoffice"
-sudo pacman -R --noconfirm onlyoffice-desktopeditors
+sudo pacman -R --noconfirm onlyoffice-desktopeditors plasma-workspace-wallpapers
 
 echo "Updating packages"
 sudo pacman -Su --noconfirm
