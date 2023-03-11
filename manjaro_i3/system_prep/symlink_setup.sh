@@ -10,7 +10,7 @@ ln -s $1"/PC_files" ~/Dropbox
 
 echo "creating media links"
 sudo rm -R ~/Pictures
-sudo ln -s $1"/PC_files/Pictures" ~/Pictures
+sudo ln -s $1"/PC_files/Media" ~/Pictures
 sudo rm -R ~/Documents
 sudo ln -s $1"/PC_files/Documents" ~/Documents
 sudo rm -R ~/Downloads
