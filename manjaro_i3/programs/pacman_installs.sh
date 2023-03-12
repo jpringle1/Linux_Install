@@ -26,5 +26,7 @@ sudo pacman -S --noconfrim virt-manager
 sudo pacman -S --noconfirm qemu-full
 sudo systemctl enable libvirtd.service
 sudo systemctl start libvirtd.service
+sudo virsh net-autostart default
+sudo virsh net-start default
 
 sudo yay -S --noconfirm
