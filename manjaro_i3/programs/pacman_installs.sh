@@ -21,4 +21,7 @@ sudo ln -s $live_configs_directory"/firefox" ~/.mozilla/firefox
 echo "installing obsidian"
 sudo pacman -S --noconfirm obsidian
 
+echo "installing virt-manager"
+sudo pacman -S --noconfrim virt-manager
+
 sudo yay -S --noconfirm
