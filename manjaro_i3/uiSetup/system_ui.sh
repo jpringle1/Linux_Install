@@ -12,8 +12,6 @@ var=$(grep -n "\[Daemon\]" kscreenlockerrc | cut -f1 -d:)
 var=$((var+1))
 sed -i "${var}i ${insertText}" ~/.config/kscreenlockerrc
 
-
-
 # KDE
 git clone https://github.com/catppuccin/grub.git && cd grub
 sudo mkdir /usr/share/grub/themes

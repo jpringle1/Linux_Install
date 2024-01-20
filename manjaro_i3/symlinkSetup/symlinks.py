@@ -1,7 +1,7 @@
 import yaml, os
 from pathlib import Path
 
-namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/system_prep/symlinkSetup/"
+namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/symlinkSetup/"
 
 with open(namespace + "symlinks.yaml", 'r') as stream:
     symlinks = yaml.safe_load(stream)

@@ -2,7 +2,7 @@
 import yaml, os
 from shutil import copyfile
 
-namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/system_prep/DriveMounting/"
+namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/driveMounting/"
 
 with open(namespace + "drives.yaml", 'r') as stream:
     drives = yaml.safe_load(stream)
