@@ -1,0 +1,12 @@
+- manager: "apt"
+  packages:
+  - software-properties-common
+  - steam
+  - thunderbird
+- manager: "deb"
+  packages:
+  - "obsidianmd/obsidian-releases"
+  - "VSCodium/vscodium"
+
+- manager: "flatpak"
+  packages:
