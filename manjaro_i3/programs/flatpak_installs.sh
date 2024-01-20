@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#obsidian
 
 echo "commencing configurations"
 
