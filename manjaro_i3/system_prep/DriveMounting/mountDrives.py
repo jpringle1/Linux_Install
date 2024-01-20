@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 import yaml, os
 
-with open("/mnt/LinuxSetup/Linux_Install/manjaro_i3/system_prep/drives.yaml", 'r') as stream:
+namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/system_prep/DriveMounting/"
+
+with open(namespace + "drives.yaml", 'r') as stream:
     drives = yaml.safe_load(stream)
 
-with open("/mnt/LinuxSetup/Linux_Install/manjaro_i3/system_prep/serverConfig.yaml", 'r') as stream:
+with open(namespace + "serverConfig.yaml", 'r') as stream:
     config = yaml.safe_load(stream)
 
 for drive in drives:
