@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import yaml, os
+from shutil import copyfile
 
 namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/system_prep/DriveMounting/"
 
@@ -8,6 +9,8 @@ with open(namespace + "drives.yaml", 'r') as stream:
 
 with open(namespace + "serverConfig.yaml", 'r') as stream:
     config = yaml.safe_load(stream)
+
+copyfile(namespace + ".smbcredentials", "/home/joep/")
 
 for drive in drives:
     if drive["type"] == "cifs":
