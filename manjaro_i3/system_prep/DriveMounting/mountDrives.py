@@ -10,7 +10,7 @@ with open(namespace + "drives.yaml", 'r') as stream:
 with open(namespace + "serverConfig.yaml", 'r') as stream:
     config = yaml.safe_load(stream)
 
-copyfile(namespace + ".smbcredentials", "/home/joep/")
+copyfile(namespace + ".smbcredentials", "/home/joep/.smbcredentials")
 
 for drive in drives:
     if drive["type"] == "cifs":
@@ -20,7 +20,8 @@ for drive in drives:
 
     with open("/etc/fstab", "a") as fstab:
         fstab.write(newMount+"\n")
-
+    os.mkdir(f'/mnt/{drive["mountPoint"]}')
+    
 bashCommands = [
     "sudo apt install cifs-utils",
     "systemctl daemon-reload",
