@@ -9,11 +9,6 @@ sudo pacman -Sy --noconfirm
 echo "Updating packages"
 sudo pacman -Su --noconfirm
 
-echo "configuring firefox"
-rm -R ~/.mozilla
-mkdir ~/.mozilla
-sudo ln -s $live_configs_directory"/firefox" ~/.mozilla/firefox
-
 echo "installing obsidian"
 sudo pacman -S --noconfirm obsidian
 
