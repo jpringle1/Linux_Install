@@ -20,6 +20,7 @@ for drive in drives:
 
     with open("/etc/fstab", "a") as fstab:
         fstab.write(newMount+"\n")
+    os.rmdir(f'/mnt/{drive["mountPoint"]}')
     os.mkdir(f'/mnt/{drive["mountPoint"]}')
     
 bashCommands = [
