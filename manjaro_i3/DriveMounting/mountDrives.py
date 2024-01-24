@@ -28,7 +28,8 @@ for drive in drives["cifsDrives"]:
     writeToFstabAndMount(newMount, drive["mountPoint"])
 
 for drive in drives["iscsi"]:
+    os.popen(f'sudo iscsiadm --mode node --targetname {config["targetName"]} --portal {config["serverIp"]} --login && sudo mkfs.ext4 /dev/{drive["mountPoint"]}')
     newMount = f'/dev/{drive["drive"]} /mnt/{drive["mountPoint"]} ext4 _netdev,rw 0 0'
     writeToFstabAndMount(newMount, drive["mountPoint"])
     
-os.popen("systemctl daemon-reload && mount -a")
+os.popen("systemctl daemon-reload && sudo mount -a")
