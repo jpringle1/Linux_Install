@@ -3,6 +3,7 @@
   - software-properties-common
   - steam
   - thunderbird
+  - open-iscsi
 - manager: "deb"
   packages:
   - "obsidianmd/obsidian-releases"
