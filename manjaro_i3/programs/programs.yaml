@@ -4,6 +4,7 @@
   - steam
   - thunderbird
   - open-iscsi
+  - cifs-utils
 - manager: "deb"
   packages:
   - "obsidianmd/obsidian-releases"
