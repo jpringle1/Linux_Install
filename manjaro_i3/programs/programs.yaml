@@ -1,10 +1,13 @@
 - manager: "apt"
   packages:
-  - software-properties-common
-  - steam
-  - thunderbird
-  - open-iscsi
-  - cifs-utils
+  - "software-properties-common"
+  - "steam"
+  - "thunderbird"
+  - "open-iscsi"
+  - "cifs-utils"
+  - "filelight"
+  - "digikam"
+  - "qbittorrent"
 - manager: "deb"
   packages:
   - "obsidianmd/obsidian-releases"
