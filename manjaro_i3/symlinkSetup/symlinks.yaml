@@ -1,0 +1,18 @@
+- directory: "/mnt/Media/"
+  links:
+  - source: "Pictures"
+  - destination: ""
+
+- directory: "/mnt/Personal/"
+  links:
+  - source: "Documents"
+    destination: ""
+  - source: "Downloads"
+    destination: ""
+
+- directory: "/mnt/LinuxSetup/Configs/"
+  links:
+  - source: ".mozilla/firefox"
+    destination: "Firefox"
+  - source: ".steam"
+    destination: "Steam"

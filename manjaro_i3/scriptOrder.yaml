@@ -1,0 +1,16 @@
+- directory: "driveMounting"
+  scripts:
+  - "mountDrives.py"
+- directory: "programs"
+  scripts:
+  - "installPrograms.sh"
+  - "installPrograms.py"
+- directory: "symlinkSetup"
+  scripts:
+  - "symlinks.py"
+- directory: "uiSetup"
+  scripts:
+  - "uiSetup.py"
+- directory: "configurations"
+  scripts:
+  - "key_bindings.sh"
