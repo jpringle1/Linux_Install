@@ -23,11 +23,20 @@ class DriveMounting:
         os.popen(f'sudo iscsiadm --mode node --targetname {serverConfig["targetName"]} --portal {serverConfig["serverIp"]} --login && sudo mkfs.ext4 /dev/{mountPoint}')
         return f'/dev/{drive} /mnt/{mountPoint} ext4 _netdev,rw 0 0'
     
+    @staticmethod
+    def setupSmbCredentials(smbcredentials):
+        f = open(smbcredentials["location"], "w")
+        f.write(f"username={smbcredentials["username"]}\n")
+        f.write(f"password={smbcredentials["password"]}\n")
+        f.write(f"domain={smbcredentials["domain"]}")
+        f.close()
+
     @classmethod
-    def mountDrives(cls, configDirectory, drivesYaml):
-        drives = FileManaging.importYaml(configDirectory + "/" + drivesYaml)
-        
-        copyfile(configDirectory + ".smbcredentials", "/home/joep/.smbcredentials")
+    def mountDrives(cls, drivesYaml, serverConfig):
+        drives = FileManaging.importYaml(drivesYaml)
+        serverConfig = FileManaging.importYaml(serverConfig)
+
+        cls.setupSmbCredentials(serverConfig["smbcredentials"])
 
         for drive in drives["ext4"]:
             mountString = cls.getExt4MountString(drive["drive"], drive["mountpoint"])

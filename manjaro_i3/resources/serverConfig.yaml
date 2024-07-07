@@ -1,0 +1,6 @@
+smbcredentials:
+  username: "joep"
+  password: "j38pdh8pq9J!"
+  domain: "WORKGROUP"
+  location: "/home/joep/.smbcredentials"
+nasIpAddress: "192.168.0.17"
