@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # $live_configs_directory=$1
 echo "removing kglobalshortcutsrc"
 
