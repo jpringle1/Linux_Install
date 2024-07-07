@@ -7,10 +7,6 @@ import SystemLinks
 resourcesDir = os.getcwd() + "/resources/"
 
 Prerequisites.installAndConfigureGit(resourcesDir + "git")
-DriveMounting.mountDrives(resourcesDir, "drives")
+DriveMounting.mountDrives(resourcesDir + "drives", resourcesDir + "serverConfig")
 Packages.installPackages(resourcesDir + "packages")
 SystemLinks.addAllSymlinks(resourcesDir + "symlinks")
-
-os.popen(f'sh {resourcesDir}scripts/kde.sh')
-os.popen(f'sh {resourcesDir}scripts/removeShutdownOptions.sh')
-os.popen(f'sh {resourcesDir}scripts/key_bindings.sh')

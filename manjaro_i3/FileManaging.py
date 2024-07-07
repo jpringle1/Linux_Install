@@ -1,5 +1,5 @@
 import yaml
 
-def importYaml(resourcesDir, fileName):
-    with open(resourcesDir + "/" + fileName + ".yaml", 'r') as stream:
+def importYaml(fileName):
+    with open(fileName + ".yaml", 'r') as stream:
         return yaml.safe_load(stream)

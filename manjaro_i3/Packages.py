@@ -1,29 +1,26 @@
 import os
 import FileManaging
+import subprocess
 
-class Packages:
-    @staticmethod
-    def addRepository():
-        print("")
+def addRepository():
+    print("")
 
-    @staticmethod
-    def refreshRepositories():
-        os.popen("sudo zypper -y ref")
+def refreshRepositories():
+    subprocess.run(["systemctl", "daemon-reload"], check=True)
+    subprocess.run(["sudo", "zypper", "-y", "ref"], check=True)
 
-    @staticmethod
-    def installZypperPackage(package):
-        os.popen(f"sudo zypper -y in {package}")
 
-    @staticmethod
-    def installFlatpak(package):
-        os.popen(f"flatpak -y install {package}")
+def installZypperPackage(package):
+    subprocess.run(["sudo", "zypper", "-y", "in", package], check=True)
 
-    @classmethod
-    def installPackages(cls, packagesYamlFile):
-        packages = FileManaging.importYaml(packagesYamlFile)
-        cls.addRepository()
-        cls.refreshRepositories()
-        for package in packages["zypper"]:
-            cls.installZypperPackage(package)
-        for package in packages["flatpak"]:
-            cls.installFlatpakPackage(package)
+def installFlatpakPackage(package):
+    subprocess.run(["flatpak", "-y", "install", package], check=True)
+
+def installPackages(packagesYamlFile):
+    packages = FileManaging.importYaml(packagesYamlFile)
+    addRepository()
+    refreshRepositories()
+    for package in packages["zypper"]:
+        installZypperPackage(package)
+    for package in packages["flatpak"]:
+        installFlatpakPackage(package)
