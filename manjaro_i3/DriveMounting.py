@@ -1,6 +1,5 @@
 import os
 import FileManaging
-from shutil import copyfile
 
 class DriveMounting:
     @staticmethod
@@ -15,12 +14,12 @@ class DriveMounting:
         return f'UUID={drive}    /mnt/{mountPoint}    ext4    defaults    0    1'
 
     @staticmethod
-    def getCifsMountString(drive, mountPoint, serverConfig):
-        return f'//{serverConfig["serverIp"]}/{drive} /mnt/{mountPoint} cifs credentials={serverConfig["credentials"]},uid=1000,gid=1000 0 0'
+    def getCifsMountString(drive, mountPoint, nasIpAddress):
+        return f'//{nasIpAddress["serverIp"]}/{drive} /mnt/{mountPoint} cifs credentials={nasIpAddress["credentials"]},uid=1000,gid=1000 0 0'
 
     @staticmethod
-    def getIscsiMountString(drive, mountPoint, serverConfig):
-        os.popen(f'sudo iscsiadm --mode node --targetname {serverConfig["targetName"]} --portal {serverConfig["serverIp"]} --login && sudo mkfs.ext4 /dev/{mountPoint}')
+    def getIscsiMountString(drive, mountPoint, nasIpAddress):
+        os.popen(f'sudo iscsiadm --mode node --targetname {nasIpAddress["targetName"]} --portal {nasIpAddress["serverIp"]} --login && sudo mkfs.ext4 /dev/{mountPoint}')
         return f'/dev/{drive} /mnt/{mountPoint} ext4 _netdev,rw 0 0'
     
     @staticmethod
@@ -43,11 +42,11 @@ class DriveMounting:
             cls.writeToFstabAndMount(mountString, drive["mountpoint"])
 
         for drive in drives["cifs"]:
-            mountString = cls.getCifsMountString(drive["drive"], drive["mountpoint"])
+            mountString = cls.getCifsMountString(drive["drive"], drive["mountpoint"], serverConfig["nasIpAddress"])
             cls.writeToFstabAndMount(mountString, drive["mountpoint"])
 
         for drive in drives["iscsi"]:
-            mountString = cls.getIscsiMountString(drive["drive"], drive["mountpoint"])
+            mountString = cls.getIscsiMountString(drive["drive"], drive["mountpoint"], serverConfig["nasIpAddress"])
             cls.writeToFstabAndMount(mountString, drive["mountpoint"])
         
         os.popen("systemctl daemon-reload && sudo mount -a")
