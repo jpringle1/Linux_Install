@@ -110,8 +110,22 @@ class SystemLinks:
                 cls.deleteSymlink(destinationPath)
                 cls.addSymlink(sourcePath, destinationPath)
 
-class FolderSyncing:
-
 class UserInterface:
+    # GRUB
+    # Splash Screen
+    # Login Screen
+    # Konsole
+
+    # @staticmethod
+    # def setupKdeTheming(scriptDirectory):
+
+    # def removeShutdownLoginOptions
 
 class Configurations:
+
+class FolderSyncing:
+    def notImplemented():
+        print("not implemented")
+        
+os.popen(f'sh {cwd}/resources/userInterface/kde.sh')
+os.popen(f'sh {cwd}/resources/userInterface/removeShutdownOptions.sh')
