@@ -111,6 +111,7 @@ class SystemLinks:
                 cls.addSymlink(sourcePath, destinationPath)
 
 class UserInterface:
+    print("not impleneted")
     # GRUB
     # Splash Screen
     # Login Screen
@@ -122,10 +123,12 @@ class UserInterface:
     # def removeShutdownLoginOptions
 
 class Configurations:
+    print("not impleneted")
+    #key_bindings
 
 class FolderSyncing:
-    def notImplemented():
-        print("not implemented")
+    print("not implemented")
         
 os.popen(f'sh {cwd}/resources/userInterface/kde.sh')
 os.popen(f'sh {cwd}/resources/userInterface/removeShutdownOptions.sh')
+os.popen(f'sh {cwd}/resources/configurations/key_bindings.sh')
