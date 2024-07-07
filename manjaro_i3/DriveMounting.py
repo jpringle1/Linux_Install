@@ -23,25 +23,38 @@ def getCifsMountString(drive, mountPoint, credentials, nasIpAddress):
     remoteDrive = f'//{nasIpAddress}/{drive} '
     localMount = f'/mnt/{mountPoint} '
     filetype = "cifs "
-    credentials = f'credentials={credentials}'
+    credentialsStr = f'credentials={credentials}'
     idStrings = ",uid=1000,gid=1000 0 0"
 
-    return remoteDrive + localMount + filetype + credentials + idStrings
+    return remoteDrive + localMount + filetype + credentialsStr + idStrings
 
-def getIscsiMountString(drive, mountPoint, nasIpAddress):
-    # subprocess.run([
-    #     "sudo", 
-    #     "iscsiadm", 
-    #     "--mode", 
-    #     "node", 
-    #     "--targetname", 
-    #     nasIpAddress["targetName"],
-    #     "--portal",
-    #     nasIpAddress["serverIp"],
-    #     "--login",
-    #     ],
-    #     check=True)    
-    # subprocess.run(["sudo", "mkfs.ext4", "/dev/" + {mountPoint}], check=True)
+def discoverIscsiTargets(nasIpAddress):
+    subprocess.run([
+        "sudo", 
+        "iscsiadm", 
+        "-m", 
+        "discovery", 
+        "-t", 
+        "sendtargets", 
+        "-p", 
+        nasIpAddress],
+        check=True)
+
+def getIscsiMountString(drive, mountPoint, nasIpAddress, targetName):
+    discoverIscsiTargets(nasIpAddress)
+    subprocess.run([
+        "sudo", 
+        "iscsiadm", 
+        "--mode", 
+        "node", 
+        "--targetname", 
+        targetName,
+        "--portal",
+        nasIpAddress,
+        "--login",
+        ],
+        check=True)    
+    # subprocess.run(["sudo", "mkfs.ext4", "/dev/" + mountPoint], check=True) I THINK THIS FORMATS THE DRIVE
     return f'/dev/{drive} /mnt/{mountPoint} ext4 _netdev,rw 0 0'
 
 def setupSmbCredentials(smbcredentials, credentialLocation):
@@ -51,9 +64,9 @@ def setupSmbCredentials(smbcredentials, credentialLocation):
     f.write(f"domain={smbcredentials['domain']}")
     f.close()
 
-def mountDrives(drivesYaml, serverConfig):
+def mountDrives(drivesYaml, serverConfigYaml):
     drives = FileManaging.importYaml(drivesYaml)
-    serverConfig = FileManaging.importYaml(serverConfig)
+    serverConfig = FileManaging.importYaml(serverConfigYaml)
 
     setupSmbCredentials(serverConfig["smbcredentials"], serverConfig["credentialsLocation"])
 
@@ -65,9 +78,9 @@ def mountDrives(drivesYaml, serverConfig):
         mountString = getCifsMountString(drive["drive"], drive["mountPoint"], serverConfig["credentialsLocation"], serverConfig["nasIpAddress"])
         writeToFstabAndMount(mountString, drive["mountPoint"])
 
-    # for drive in drives["iscsi"]:
-    #     mountString = getIscsiMountString(drive["drive"], drive["mountPoint"], serverConfig["nasIpAddress"])
-    #     writeToFstabAndMount(mountString, drive["mountPoint"])
+    for drive in drives["iscsi"]:
+        mountString = getIscsiMountString(drive["drive"], drive["mountPoint"], serverConfig["nasIpAddress"], drive["targetName"])
+        writeToFstabAndMount(mountString, drive["mountPoint"])
         
     subprocess.run(["systemctl", "daemon-reload"], check=True)
     subprocess.run(["sudo", "mount", "-a"], check=True)

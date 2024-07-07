@@ -10,6 +10,8 @@ cifs:
     mountPoint: "VirtualMachines"
   - drive: "Personal"
     mountPoint: "Personal"
+  - drive: "LinuxSetup"
+    mountPoint: "LinuxSetup"
 iscsi: 
   - drive: "sdf"
     mountPoint: "GamesNAS"
