@@ -1,7 +1,6 @@
-- zypper:
+zypper:
   - "git-core"
   - "gh"
-  - "software-properties-common"
   - "steam"
   - "thunderbird"
   - "open-iscsi"
@@ -9,8 +8,9 @@
   - "filelight"
   - "digikam"
   - "qbittorrent"
-  - "vscode"
-- flatpak:
-  - "obsidian"
-  - "proton-vpn"
-  - "proton-bridge"
+  - "code"
+flatpak:
+  - "md.obsidian.Obsidian"
+  - "com.protonvpn.www"
+  - "me.proton.Pass"
+  - "ch.protonmail.protonmail-bridge"

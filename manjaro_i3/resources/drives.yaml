@@ -1,7 +1,7 @@
-- ext4: 
+ext4: 
   - drive: "e955d6bb-556d-406b-8d40-f3f0c3e5dc3d"
     mountPoint: "Games"
-- cifs: 
+cifs: 
   - drive: "Obsidian/ObsidianPersonalVault"
     mountPoint: "ObsidianVault"
   - drive: "Media"
@@ -12,7 +12,7 @@
     mountPoint: "VirtualMachines"
   - drive: "Personal"
     mountPoint: "Personal"
-- iscsi: 
+iscsi: 
   - drive: "sdf"
     mountPoint: "GamesNAS"
     targetName: "iqn.2000-01.com.synology:PringleNAS.Target-1.6f8b5604269"
