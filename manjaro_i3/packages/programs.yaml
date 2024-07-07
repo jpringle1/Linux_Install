@@ -1,5 +1,7 @@
 - manager: "zypper"
   packages:
+  - "git-core"
+  - "gh"
   - "software-properties-common"
   - "steam"
   - "thunderbird"

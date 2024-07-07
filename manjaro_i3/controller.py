@@ -10,6 +10,15 @@ class FileManaging:
         with open(cwd + directory + fileName + ".yaml", 'r') as stream:
             return yaml.safe_load(stream)
 
+class Preqrequisites:
+    @staticmethod
+    def installAndConfigureGit(configDirectory, gitConfigYaml):
+        gitConfig = FileManaging.importYaml(configDirectory + "/" + gitConfigYaml + ".yaml")
+        Packages.installZypperPackage("git-core, gh")
+        os.popen(f'git config --global user.email {gitConfig["email"]}')
+        os.popen(f'git config --global user.name {gitConfig["name"]}')
+        os.popen(f'gh auth login --with-token < {configDirectory}/myGithubToken.txt')
+
 class DriveMounting:
     @staticmethod
     def writeToFstabAndMount(mountString, mountPoint):
@@ -51,9 +60,10 @@ class DriveMounting:
         
         os.popen("systemctl daemon-reload && sudo mount -a")
 
-
-
 class Packages:
+
+sudo zypper -y ref # update and upgrade repos and packages
+
 
 class SystemLinks:
 
