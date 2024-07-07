@@ -6,7 +6,7 @@ def addRepository():
 
 def refreshRepositories():
     subprocess.run(["systemctl", "daemon-reload"], check=True)
-    subprocess.run(["sudo", "zypper", "ref"], check=True)
+    subprocess.run(["sudo", "zypper", "--gpg-auto-import-keys" ,"ref"], check=True)
 
 def installZypperPackage(package):
     subprocess.run(["sudo", "zypper", "in", "-y", package], check=True)
