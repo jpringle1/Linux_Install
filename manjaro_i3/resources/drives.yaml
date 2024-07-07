@@ -6,8 +6,6 @@ cifs:
     mountPoint: "ObsidianVault"
   - drive: "Media"
     mountPoint: "Media"
-  - drive: "ExtraNAS"
-    mountPoint: "ExtraNAS"
   - drive: "VirtualMachines"
     mountPoint: "VirtualMachines"
   - drive: "Personal"

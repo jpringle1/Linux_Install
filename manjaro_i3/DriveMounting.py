@@ -19,11 +19,11 @@ def getExt4MountString(drive, mountPoint):
 
     return remoteDrive + localMount + filetype + idStrings
 
-def getCifsMountString(drive, mountPoint, nasIpAddress):
+def getCifsMountString(drive, mountPoint, credentials, nasIpAddress):
     remoteDrive = f'//{nasIpAddress}/{drive} '
     localMount = f'/mnt/{mountPoint} '
     filetype = "cifs "
-    credentials = f'credentials={nasIpAddress}'
+    credentials = f'credentials={credentials}'
     idStrings = ",uid=1000,gid=1000 0 0"
 
     return remoteDrive + localMount + filetype + credentials + idStrings
@@ -44,8 +44,8 @@ def getIscsiMountString(drive, mountPoint, nasIpAddress):
     # subprocess.run(["sudo", "mkfs.ext4", "/dev/" + {mountPoint}], check=True)
     return f'/dev/{drive} /mnt/{mountPoint} ext4 _netdev,rw 0 0'
 
-def setupSmbCredentials(smbcredentials):
-    f = open(smbcredentials["location"], "w")
+def setupSmbCredentials(smbcredentials, credentialLocation):
+    f = open(credentialLocation, "w")
     f.write(f"username={smbcredentials['username']}\n")
     f.write(f"password={smbcredentials['password']}\n")
     f.write(f"domain={smbcredentials['domain']}")
@@ -55,19 +55,19 @@ def mountDrives(drivesYaml, serverConfig):
     drives = FileManaging.importYaml(drivesYaml)
     serverConfig = FileManaging.importYaml(serverConfig)
 
-    setupSmbCredentials(serverConfig["smbcredentials"])
+    setupSmbCredentials(serverConfig["smbcredentials"], serverConfig["credentialsLocation"])
 
     for drive in drives["ext4"]:
         mountString = getExt4MountString(drive["drive"], drive["mountPoint"])
         writeToFstabAndMount(mountString, drive["mountPoint"])
 
     for drive in drives["cifs"]:
-        mountString = getCifsMountString(drive["drive"], drive["mountPoint"], serverConfig["nasIpAddress"])
+        mountString = getCifsMountString(drive["drive"], drive["mountPoint"], serverConfig["credentialsLocation"], serverConfig["nasIpAddress"])
         writeToFstabAndMount(mountString, drive["mountPoint"])
 
     # for drive in drives["iscsi"]:
     #     mountString = getIscsiMountString(drive["drive"], drive["mountPoint"], serverConfig["nasIpAddress"])
     #     writeToFstabAndMount(mountString, drive["mountPoint"])
         
-    #     subprocess.run(["systemctl", "daemon-reload"], check=True)
-    #     subprocess.run(["sudo", "mount", "-a"], check=True)
+    subprocess.run(["systemctl", "daemon-reload"], check=True)
+    subprocess.run(["sudo", "mount", "-a"], check=True)
