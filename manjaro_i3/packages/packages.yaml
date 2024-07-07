@@ -1,5 +1,4 @@
-- manager: "zypper"
-  packages:
+- zypper:
   - "git-core"
   - "gh"
   - "software-properties-common"
@@ -11,6 +10,7 @@
   - "digikam"
   - "qbittorrent"
   - "vscode"
-- manager: "flatpak"
-  packages:
+- flatpak:
   - "obsidian"
+  - "proton-vpn"
+  - "proton-bridge"
