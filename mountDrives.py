@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-import yaml, os
-from shutil import copyfile
-
-namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/driveMounting/"
-
 def writeToFstabAndMount(newMount, mountPoint):
     with open("/etc/fstab", "a") as fstab:
         fstab.write(newMount+"\n")
