@@ -18,3 +18,16 @@ for directory in scriptOrder:
             exec(open(path).read())
 
 # Next to do: refactor all files into OOP, aka turn them into libraries and or classes that the main file can use as methods. Will need to think about how i'm going to handle the config files'
+
+
+class DriveMounting:
+
+class Packages:
+
+class SystemLinks:
+
+class FolderSyncing:
+
+class UserInterface:
+
+class Configurations:
