@@ -2,16 +2,16 @@ import yaml, os
 from pathlib import Path
 from shutil import copyfile
 
-cwd = os.getcwd()
+resources = os.getcwd() + "/resources"
 
 class FileManaging:
     @staticmethod
     def importYaml(fileName):
-        with open(cwd + "/resources/" + fileName + ".yaml", 'r') as stream:
+        with open(resources + "/" + fileName + ".yaml", 'r') as stream:
             return yaml.safe_load(stream)
 
 
-class Preqrequisites:
+class Prerequisites:
     @staticmethod
     def installAndConfigureGit(gitConfigDirectory, gitConfigYaml, githubTokenFile):
         gitConfig = FileManaging.importYaml(gitConfigDirectory + "/" + gitConfigYaml)
@@ -45,7 +45,7 @@ class DriveMounting:
     def mountDrives(cls, drivesYaml):
         drives = FileManaging.importYaml(drivesYaml)
         
-        copyfile(cwd + "/driveMounting/.smbcredentials", "/home/joep/.smbcredentials")
+        copyfile(resources + "/driveMounting/.smbcredentials", "/home/joep/.smbcredentials")
 
         for drive in drives["ext4"]:
             mountString = cls.getExt4MountString(drive["drive"], drive["mountpoint"])
@@ -128,7 +128,12 @@ class Configurations:
 
 class FolderSyncing:
     print("not implemented")
-        
-os.popen(f'sh {cwd}/resources/userInterface/kde.sh')
-os.popen(f'sh {cwd}/resources/userInterface/removeShutdownOptions.sh')
-os.popen(f'sh {cwd}/resources/configurations/key_bindings.sh')
+
+Prerequisites.installAndConfigureGit("git", "gitConfig", "myGithubToken.txt")
+DriveMounting.mountDrives("drives/drives")
+Packages.installPackages("packages")
+SystemLinks.addAllSymlinks("symlinks")
+
+os.popen(f'sh {resources}/userInterface/kde.sh')
+os.popen(f'sh {resources}/userInterface/removeShutdownOptions.sh')
+os.popen(f'sh {resources}/configurations/key_bindings.sh')
