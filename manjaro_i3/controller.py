@@ -1,12 +1,6 @@
-import yaml, os
+import os
 
 resources = os.getcwd() + "/resources"
-
-class FileManaging:
-    @staticmethod
-    def importYaml(fileName):
-        with open(resources + "/" + fileName + ".yaml", 'r') as stream:
-            return yaml.safe_load(stream)
 
 class UserInterface:
     print("not impleneted")
