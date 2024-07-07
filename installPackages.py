@@ -1,12 +1,12 @@
 import yaml, os
 from pathlib import Path
 
-namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/programs/"
+namespace = "/mnt/LinuxSetup/Linux_Install/manjaro_i3/packages/"
 
 with open(namespace + "programs.yaml", 'r') as stream:
-    programs = yaml.safe_load(stream)
+    packages = yaml.safe_load(stream)
 
-for manager in programs:
+for manager in packages:
     for package in manager["apt"]:
         os.popen(f"sudo apt -y install {package}")
     for package in manager["deb"]:
