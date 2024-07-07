@@ -1,4 +1,4 @@
-- manager: "apt"
+- manager: "zypper"
   packages:
   - "software-properties-common"
   - "steam"
@@ -8,10 +8,7 @@
   - "filelight"
   - "digikam"
   - "qbittorrent"
-- manager: "deb"
-  packages:
-  - "obsidianmd/obsidian-releases"
-  - "VSCodium/vscodium"
-
+  - "vscode"
 - manager: "flatpak"
   packages:
+  - "obsidian"

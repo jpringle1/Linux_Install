@@ -1,7 +1,7 @@
 - directory: "/mnt/Media/"
   links:
   - source: "Pictures"
-  - destination: ""
+    destination: ""
 
 - directory: "/mnt/Personal/"
   links:
