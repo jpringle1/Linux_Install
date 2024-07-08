@@ -3,6 +3,7 @@ import Prerequisites
 import DriveMounting
 import Packages
 import SystemLinks
+import RemoveShutdownOptions
 
 resourcesDir = os.getcwd() + "/resources/"
 
@@ -10,6 +11,7 @@ Prerequisites.installAndConfigureGit(resourcesDir + "git")
 DriveMounting.mountDrives(resourcesDir + "drives", resourcesDir + "serverConfig")
 Packages.installPackages(resourcesDir + "packages")
 SystemLinks.addAllSymlinks(resourcesDir + "symlinks")
+RemoveShutdownOptions.removeShutdownOptions()
 
 # TODO: 
 # - install iscsitools before mountDrives
