@@ -1,15 +1,13 @@
-import FileManaging
-import subprocess
 import Command
+from Models import Packages
 
 def addRepository():
     print("")
 
-def installPackages(packagesYamlFile):
-    packages = FileManaging.importYaml(packagesYamlFile)
+def installPackages(packages: Packages):
     addRepository()
     Command.refreshRepositories()
-    for package in packages["zypper"]:
+    for package in packages.zypper:
         Command.zypperInstallPackage(package)
-    for package in packages["flatpak"]:
+    for package in packages.flatpak:
         Command.flatpakInstallPackage(package)

@@ -45,3 +45,11 @@ class ServerConfig:
         self.smbDomain: str = config["smbDomain"]
         self.nasIpAddress: str = config["nasIpAddress"]
         self.credentialsDirectory: str = config["credentialsDirectory"]
+
+class Packages:
+    def __init__(self, filepath: str) -> None:
+        jsonString = open(filepath)
+        packages = json.loads(jsonString)
+        jsonString.close()
+        self.zypper: List[str] = packages["zypper"]
+        self.flatpak: List[str] = packages["flatpak"]

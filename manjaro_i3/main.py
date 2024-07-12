@@ -6,7 +6,7 @@ import SystemLinks
 import RemoveShutdownOptions
 import Themes
 import FolderSyncing
-from Models import DriveCollection, ServerConfig
+from Models import DriveCollection, ServerConfig, Packages
 
 resourcesDir = os.getcwd() + "/resources/"
 
@@ -16,7 +16,7 @@ drives = DriveCollection(resourcesDir + "drives")
 serverConfiguration = ServerConfig(resourcesDir + "serverConfig")
 DriveMounting.mountDrives(drives, serverConfiguration)
 
-Packages.installPackages(resourcesDir + "packages")
+Packages.installPackages(Packages(resourcesDir + "packages"))
 SystemLinks.addAllSymlinks(resourcesDir + "symlinks")
 RemoveShutdownOptions.removeShutdownOptions()
 Themes.applyGrubTheme()
