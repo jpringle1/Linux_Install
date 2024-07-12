@@ -1,20 +1,22 @@
 import os
 import FileManaging
 import Command
+import Models
 
 def writeToFstabAndMount(mountString, mountPoint):
     with open("/etc/fstab", "a") as fstab:
         fstab.write(mountString + "\n")
 
-    if os.path.isdir("/mnt/" + mountPoint):  
-        os.rmdir(f'/mnt/{mountPoint}')
+    dir = "/mnt/" + mountPoint
+    if os.path.isdir(dir):  
+        os.rmdir(dir)
     
-    os.mkdir(f'/mnt/{mountPoint}')
+    os.mkdir(dir)
 
-def getExt4MountString(drive, mountPoint):
+def getExt4MountString(drive: Models.Drive):
     fstabOptions = [
-        "UUID=" + drive,
-        "/mnt/" + mountPoint,
+        "UUID=" + drive.drive,
+        "/mnt/" + drive.mountPoint,
         "ext4",
         "defaults",
         "0",
@@ -25,19 +27,19 @@ def getExt4MountString(drive, mountPoint):
 
     return fstabEntry
 
-def getCifsMountString(drive, mountPoint, credentials, nasIpAddress):
-    remoteDrive = f'//{nasIpAddress}/{drive} '
-    localMount = f'/mnt/{mountPoint} '
+def getCifsMountString(drive: Models.Drive, credentials, nasIpAddress):
+    remoteDrive = f'//{nasIpAddress}/{drive.drive} '
+    localMount = f'/mnt/{drive.mountPoint} '
     filetype = "cifs "
     credentialsStr = f'credentials={credentials}'
     idStrings = ",uid=1000,gid=1000 0 0"
 
     return remoteDrive + localMount + filetype + credentialsStr + idStrings
 
-def getIscsiMountString(drive, mountPoint, nasIpAddress, targetName):
+def getIscsiMountString(drive: Models.Drive, nasIpAddress):
     Command.IscsiTargetDiscovery(nasIpAddress)
-    Command.IscsiLogin(targetName, nasIpAddress)
-    return f'/dev/{drive} /mnt/{mountPoint} ext4 _netdev,rw 0 0'
+    Command.IscsiLogin(drive.targetName, nasIpAddress)
+    return f'/dev/{drive.drive} /mnt/{drive.mountPoint} ext4 _netdev,rw 0 0'
 
 def setupSmbCredentials(smbcredentials, credentialLocation):
     with open(credentialLocation, "w") as f:
@@ -45,22 +47,21 @@ def setupSmbCredentials(smbcredentials, credentialLocation):
         f.write(f"password={smbcredentials['password']}\n")
         f.write(f"domain={smbcredentials['domain']}")
 
-def mountDrives(drivesYaml, serverConfigYaml):
-    drives = FileManaging.importYaml(drivesYaml)
+def mountDrives(drives: Models.DriveCollection, serverConfigYaml):
     serverConfig = FileManaging.importYaml(serverConfigYaml)
 
     setupSmbCredentials(serverConfig["smbcredentials"], serverConfig["credentialsLocation"])
 
-    for drive in drives["ext4"]:
-        mountString = getExt4MountString(drive["drive"], drive["mountPoint"])
-        writeToFstabAndMount(mountString, drive["mountPoint"])
+    for drive in drives.ext4Drives:
+        mountString = getExt4MountString(drive)
+        writeToFstabAndMount(mountString, drive.mountPoint)
 
-    for drive in drives["cifs"]:
-        mountString = getCifsMountString(drive["drive"], drive["mountPoint"], serverConfig["credentialsLocation"], serverConfig["nasIpAddress"])
-        writeToFstabAndMount(mountString, drive["mountPoint"])
+    for drive in drives.cifsDrives:
+        mountString = getCifsMountString(drive, serverConfig["credentialsLocation"], serverConfig["nasIpAddress"])
+        writeToFstabAndMount(mountString, drive.mountPoint)
 
-    for drive in drives["iscsi"]:
-        mountString = getIscsiMountString(drive["drive"], drive["mountPoint"], serverConfig["nasIpAddress"], drive["targetName"])
-        writeToFstabAndMount(mountString, drive["mountPoint"])
+    for drive in drives.iscsiDrives:
+        mountString = getIscsiMountString(drive, serverConfig["nasIpAddress"])
+        writeToFstabAndMount(mountString, drive.mountPoint)
         Command.systemCtlReload()
         Command.fstabMountDrives()
