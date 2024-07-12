@@ -61,3 +61,42 @@ class GitConfig:
         jsonString.close()
         self.email: str = credentials["email"]
         self.name: str = credentials["name"]
+
+class SymLink:
+    def __init__(self, sourceName: str, destinationName: str) -> None:
+        self.sourceName = sourceName
+        self.destinationName = destinationName
+
+    def __repr__(self) -> str:
+        return f"SymLink(sourceName={self.sourceName}, destinationName={self.destinationName})"
+
+class Directories:
+    def __init__(self, sourceDirectory: str, destinationDirectory: str, links: List[SymLink]) -> None:
+        self.sourceDirectory = sourceDirectory
+        self.destinationDirectory = destinationDirectory
+        self.links: List[SymLink] = links
+
+    def __repr__(self) -> str:
+        return f"Directories(sourceDirectory={self.sourceDirectory}, destinationDirectory={self.destinationDirectory}, links={self.links})"
+
+class SymLinks:
+    def __init__(self, filepath: str) -> None:
+        with open(filepath, 'r') as file:
+            symLinks = json.load(file)
+        
+        self.directories: List[Directories] = []
+        
+        for directory in symLinks:
+            links = [SymLink(link["sourceName"], link["destinationName"]) for link in directory["links"]]
+            directoryObj = Directories(
+                directory["sourceDirectory"], 
+                directory["destinationDirectory"], 
+                links
+            )
+            self.directories.append(directoryObj)
+
+    def __repr__(self) -> str:
+        return f"SymLinks(directories={self.directories})"
+    
+    def __getitem__(self, index) -> Directories:
+        return self.directories[index]

@@ -1,5 +1,6 @@
 import os
 import FileManaging
+from Models import SymLinks
 
 def deleteSymlink(destinationPath):
     if os.path.isfile(destinationPath):
@@ -10,11 +11,10 @@ def addSymlink(sourcePath, destinationPath):
     print(commandExecution.read())
     print(commandExecution.close())
 
-def addAllSymlinks(symlinksYaml):
-    symlinks = FileManaging.importYaml(symlinksYaml)
-    for directory in symlinks:
-        for symlink in directory["links"]:
-            sourcePath = directory["sourceDirectory"] + symlink["sourceName"]
-            destinationPath = directory["destinationDirectory"] + symlink["destinationName"]
+def addAllSymlinks(symLinks: SymLinks):
+    for entry in symLinks:
+        for symlink in entry.links:
+            sourcePath = entry.sourceDirectory + symlink.sourceName
+            destinationPath = entry.destinationDirectory + symlink.destinationName
             deleteSymlink(destinationPath)
             addSymlink(sourcePath, destinationPath)

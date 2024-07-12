@@ -1,0 +1,43 @@
+[
+    {
+        "sourceDirectory": "/mnt/Media/",
+        "destinationDirectory": "",
+        "links": 
+        [
+            {
+                "sourceName": "Pictures",
+                "destinationName": ""
+            }
+        ]
+    },
+    {
+        "sourceDirectory": "/mnt/Personal/",
+        "destinationDirectory": "",
+        "links": 
+        [
+            {
+                "sourceName": "Documents",
+                "destinationName": ""
+            },
+            {
+                "sourceName": "Downloads",
+                "destinationName": ""
+            }            
+        ]
+    },
+    {
+        "sourceDirectory": "/mnt/LinuxSetup/Configs/",
+        "destinationDirectory": "",
+        "links": 
+        [
+            {
+                "sourceName": ".mozilla/firefox",
+                "destinationName": "Firefox"
+            },
+            {
+                "sourceName": ".steam",
+                "destinationName": "Steam"
+            }            
+        ]
+    }
+]
