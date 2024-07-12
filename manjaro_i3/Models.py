@@ -53,3 +53,11 @@ class Packages:
         jsonString.close()
         self.zypper: List[str] = packages["zypper"]
         self.flatpak: List[str] = packages["flatpak"]
+
+class GitConfig:
+    def __init__(self, filepath: str) -> None:
+        jsonString = open(filepath)
+        credentials = json.loads(jsonString)
+        jsonString.close()
+        self.email: str = credentials["email"]
+        self.name: str = credentials["name"]

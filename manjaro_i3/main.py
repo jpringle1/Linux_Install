@@ -6,11 +6,11 @@ import SystemLinks
 import RemoveShutdownOptions
 import Themes
 import FolderSyncing
-from Models import DriveCollection, ServerConfig, Packages
+from Models import DriveCollection, ServerConfig, Packages, GitConfig
 
 resourcesDir = os.getcwd() + "/resources/"
 
-Prerequisites.installAndConfigureGit(resourcesDir + "git")
+Prerequisites.installAndConfigureGit(GitConfig(resourcesDir + "git"))
 
 drives = DriveCollection(resourcesDir + "drives")
 serverConfiguration = ServerConfig(resourcesDir + "serverConfig")

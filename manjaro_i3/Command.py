@@ -1,8 +1,9 @@
 import subprocess
+from Models import GitConfig
 
-def configureGit(email, name):
-    subprocess.run(["git", "config", "--global", "user.email", email], check=True)
-    subprocess.run(["git", "config", "--global", "user.name", name], check=True)
+def configureGit(gitConfig: GitConfig):
+    subprocess.run(["git", "config", "--global", "user.email", gitConfig.email], check=True)
+    subprocess.run(["git", "config", "--global", "user.name", gitConfig.name], check=True)
 
 def authorizeGithub(token_file):
     subprocess.run(["gh", "auth", "login", "--with-token"], stdin=token_file, check=True)
