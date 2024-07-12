@@ -6,7 +6,7 @@ import SystemLinks
 import RemoveShutdownOptions
 import Themes
 import FolderSyncing
-from Models import DriveCollection, ServerConfig, Packages, GitConfig, SymLinks
+from Models import DriveCollection, ServerConfig, Packages, GitConfig, SymLinks, Syncs
 
 resourcesDir = os.getcwd() + "/resources/"
 
@@ -22,8 +22,7 @@ RemoveShutdownOptions.removeShutdownOptions()
 Themes.applyGrubTheme()
 FolderSyncing.syncKeyboardShortcuts()
 
-# TODO: 
-# - use models
+# TODO:
 # - setup symlinks
 # - setup folder syncs
 # - install iscsitools before mountDrives
