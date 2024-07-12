@@ -18,8 +18,8 @@ Themes.applyGrubTheme()
 FolderSyncing.syncKeyboardShortcuts()
 
 # TODO: 
-# - install iscsitools before mountDrives
-# - setup iscsi drive on boot (currently fstab entry bricks system)
 # - setup symlinks
 # - setup folder syncs
 # - use models
+# - install iscsitools before mountDrives
+# - setup iscsi drive on boot (currently fstab entry bricks system)

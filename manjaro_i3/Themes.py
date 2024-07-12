@@ -1,6 +1,6 @@
 import shutil
 import os
-import subprocess
+import Command
 from git import Repo
 
 def applyGrubTheme():
@@ -21,10 +21,4 @@ def applyGrubTheme():
         myfile.write(newThemeSetting)
         myfile.write(newResolutionSetting)
 
-    subprocess.run([
-        "sudo", 
-        "grub-mkconfig", 
-        "-o",
-        "/boot/grub/grub.cfg"],
-        check=True)
-    
+    Command.refreshGrub()

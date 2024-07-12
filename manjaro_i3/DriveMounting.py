@@ -1,6 +1,6 @@
 import os
 import FileManaging
-import subprocess
+import Command
 
 def writeToFstabAndMount(mountString, mountPoint):
     with open("/etc/fstab", "a") as fstab:
@@ -34,41 +34,16 @@ def getCifsMountString(drive, mountPoint, credentials, nasIpAddress):
 
     return remoteDrive + localMount + filetype + credentialsStr + idStrings
 
-def discoverIscsiTargets(nasIpAddress):
-    subprocess.run([
-        "sudo", 
-        "iscsiadm", 
-        "-m", 
-        "discovery", 
-        "-t", 
-        "sendtargets", 
-        "-p", 
-        nasIpAddress],
-        check=True)
-
 def getIscsiMountString(drive, mountPoint, nasIpAddress, targetName):
-    discoverIscsiTargets(nasIpAddress)
-    subprocess.run([
-        "sudo", 
-        "iscsiadm", 
-        "--mode", 
-        "node", 
-        "--targetname", 
-        targetName,
-        "--portal",
-        nasIpAddress,
-        "--login",
-        ],
-        check=True)    
-    # subprocess.run(["sudo", "mkfs.ext4", "/dev/" + mountPoint], check=True) I THINK THIS FORMATS THE DRIVE
+    Command.IscsiTargetDiscovery(nasIpAddress)
+    Command.IscsiLogin(targetName, nasIpAddress)
     return f'/dev/{drive} /mnt/{mountPoint} ext4 _netdev,rw 0 0'
 
 def setupSmbCredentials(smbcredentials, credentialLocation):
-    f = open(credentialLocation, "w")
-    f.write(f"username={smbcredentials['username']}\n")
-    f.write(f"password={smbcredentials['password']}\n")
-    f.write(f"domain={smbcredentials['domain']}")
-    f.close()
+    with open(credentialLocation, "w") as f:
+        f.write(f"username={smbcredentials['username']}\n")
+        f.write(f"password={smbcredentials['password']}\n")
+        f.write(f"domain={smbcredentials['domain']}")
 
 def mountDrives(drivesYaml, serverConfigYaml):
     drives = FileManaging.importYaml(drivesYaml)
@@ -87,6 +62,5 @@ def mountDrives(drivesYaml, serverConfigYaml):
     for drive in drives["iscsi"]:
         mountString = getIscsiMountString(drive["drive"], drive["mountPoint"], serverConfig["nasIpAddress"], drive["targetName"])
         writeToFstabAndMount(mountString, drive["mountPoint"])
-        
-    subprocess.run(["systemctl", "daemon-reload"], check=True)
-    subprocess.run(["sudo", "mount", "-a"], check=True)
+        Command.systemCtlReload()
+        Command.fstabMountDrives()
