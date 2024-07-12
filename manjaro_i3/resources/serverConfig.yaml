@@ -1,5 +1,0 @@
-smbUsername: "joep"
-smbPassword: "j38pdh8pq9J!"
-smbDomain: "WORKGROUP"
-nasIpAddress: "192.168.0.17"
-credentialsDirectory: "/home/joep/.smbcredentials"
