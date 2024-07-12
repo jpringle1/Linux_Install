@@ -6,12 +6,16 @@ import SystemLinks
 import RemoveShutdownOptions
 import Themes
 import FolderSyncing
-from Models import DriveCollection
+from Models import DriveCollection, ServerConfig
 
 resourcesDir = os.getcwd() + "/resources/"
 
 Prerequisites.installAndConfigureGit(resourcesDir + "git")
-DriveMounting.mountDrives(DriveCollection(resourcesDir + "drives"), resourcesDir + "serverConfig")
+
+drives = DriveCollection(resourcesDir + "drives")
+serverConfiguration = ServerConfig(resourcesDir + "serverConfig")
+DriveMounting.mountDrives(drives, serverConfiguration)
+
 Packages.installPackages(resourcesDir + "packages")
 SystemLinks.addAllSymlinks(resourcesDir + "symlinks")
 RemoveShutdownOptions.removeShutdownOptions()
