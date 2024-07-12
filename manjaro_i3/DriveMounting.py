@@ -12,12 +12,18 @@ def writeToFstabAndMount(mountString, mountPoint):
     os.mkdir(f'/mnt/{mountPoint}')
 
 def getExt4MountString(drive, mountPoint):
-    remoteDrive = f'UUID={drive}    '
-    localMount = f'/mnt/{mountPoint}    '
-    filetype = "ext4    "
-    idStrings = "defaults    0    1"
+    fstabOptions = [
+        "UUID=" + drive,
+        "/mnt/" + mountPoint,
+        "ext4",
+        "defaults",
+        "0",
+        "1"
+    ]
 
-    return remoteDrive + localMount + filetype + idStrings
+    fstabEntry = '   '.join(fstabOptions)
+
+    return fstabEntry
 
 def getCifsMountString(drive, mountPoint, credentials, nasIpAddress):
     remoteDrive = f'//{nasIpAddress}/{drive} '
