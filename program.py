@@ -1,4 +1,5 @@
 import os
+import pyfstab
 
 from Scripts import Prerequisites
 from Scripts import DriveMounting
