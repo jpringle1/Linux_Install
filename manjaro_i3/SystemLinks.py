@@ -1,5 +1,5 @@
 import os
-from Models import SymLinks
+from models.SymLinks import SymLinks
 
 def deleteSymlink(destinationPath):
     if os.path.isfile(destinationPath):

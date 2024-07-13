@@ -1,5 +1,5 @@
 import Command
-from Models import Packages
+from models import Packages
 
 def addRepository():
     print("")

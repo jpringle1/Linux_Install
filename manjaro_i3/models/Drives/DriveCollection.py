@@ -1,0 +1,28 @@
+import json
+from Drive import Drive
+from typing import List
+
+class DriveCollection:
+    def __init__(self, filepath: str) -> None:
+        jsonString = open(filepath)
+        config = json.loads(jsonString)
+        jsonString.close()
+        self.ext4Drives: List[Drive] = []
+        self.cifsDrives: List[Drive] = []
+        self.iscsiDrives: List[Drive] = []
+
+        for entry in config:
+            driveType = entry["driveType"]
+            for drive in entry["drives"]:
+                if driveType.lower() == "iscsi":
+                    driveObj = Drive(drive["drive"], drive["mountPoint"], drive.get("targetName"))
+                    self.iscsiDrives.append(driveObj)
+                else:
+                    driveObj = Drive(drive["drive"], drive["mountPoint"])
+                    if driveType.lower() == "ext4":
+                        self.ext4Drives.append(driveObj)
+                    elif driveType.lower() == "cifs":
+                        self.cifsDrives.append(driveObj)
+
+    def __repr__(self) -> str:
+        return f"DriveCollection(ext4Drives={self.ext4Drives}, cifsDrives={self.cifsDrives}, iscsiDrives={self.iscsiDrives})"

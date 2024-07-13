@@ -6,7 +6,11 @@ import SystemLinks
 import RemoveShutdownOptions
 import Themes
 import FolderSyncing
-from Models import DriveCollection, ServerConfig, Packages, GitConfig, SymLinks, Syncs
+from models.Drives import DriveCollection
+from models.Configs import ServerConfig, GitConfig
+from models import Packages
+from models.SymLinks import SymLinks
+from models.Syncs import Syncs
 
 resourcesDir = os.getcwd() + "/resources/"
 
@@ -23,6 +27,8 @@ Themes.applyGrubTheme()
 FolderSyncing.syncKeyboardShortcuts()
 
 # TODO:
+# - Refactor KDE configurer
+# - refactor grub editer
 # - setup symlinks
 # - setup folder syncs
 # - install iscsitools before mountDrives

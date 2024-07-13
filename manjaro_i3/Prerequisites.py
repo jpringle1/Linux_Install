@@ -1,6 +1,6 @@
 import Packages
 import Command
-from Models import GitConfig
+from models.Configs import GitConfig
 
 def installAndConfigureGit(gitConfig: GitConfig):
   Packages.installZypperPackage("git-core")

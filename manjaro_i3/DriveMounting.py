@@ -1,6 +1,7 @@
 import os
 import Command
-import Models
+from models.Drives import Drive, DriveCollection
+from models.Configs import ServerConfig
 
 def writeToFstabAndMount(mountString, mountPoint):
     with open("/etc/fstab", "a") as fstab:
@@ -12,7 +13,7 @@ def writeToFstabAndMount(mountString, mountPoint):
     
     os.mkdir(dir)
 
-def getExt4MountString(drive: Models.Drive):
+def getExt4MountString(drive: Drive):
     fstabOptions = [
         "UUID=" + drive.drive,
         "/mnt/" + drive.mountPoint,
@@ -26,7 +27,7 @@ def getExt4MountString(drive: Models.Drive):
 
     return fstabEntry
 
-def getCifsMountString(drive: Models.Drive, serverConfig: Models.ServerConfig):
+def getCifsMountString(drive: Drive, serverConfig: ServerConfig):
     remoteDrive = f'//{serverConfig.nasIpAddress}/{drive.drive} '
     localMount = f'/mnt/{drive.mountPoint} '
     filetype = "cifs "
@@ -35,18 +36,18 @@ def getCifsMountString(drive: Models.Drive, serverConfig: Models.ServerConfig):
 
     return remoteDrive + localMount + filetype + credentialsStr + idStrings
 
-def getIscsiMountString(drive: Models.Drive, serverConfig: Models.ServerConfig):
+def getIscsiMountString(drive: Drive, serverConfig: ServerConfig):
     Command.IscsiTargetDiscovery(serverConfig.nasIpAddress)
     Command.IscsiLogin(drive.targetName, serverConfig.nasIpAddress)
     return f'/dev/{drive.drive} /mnt/{drive.mountPoint} ext4 _netdev,rw 0 0'
 
-def setupSmbCredentials(config: Models.ServerConfig):
+def setupSmbCredentials(config:ServerConfig):
     with open(config.credentialsDirectory, "w") as f:
         f.write(f"username={config.smbUsername}\n")
         f.write(f"password={config.smbPassword}\n")
         f.write(f"domain={config.smbDomain}")
 
-def mountDrives(drives: Models.DriveCollection, serverConfig: Models.ServerConfig):
+def mountDrives(drives: DriveCollection, serverConfig: ServerConfig):
     setupSmbCredentials(serverConfig)
 
     for drive in drives.ext4Drives:
