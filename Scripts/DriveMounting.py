@@ -1,47 +1,57 @@
 import os
-import Command
+from pyfstab import Fstab, Entry
+
+from Scripts import Command
 from Models.Drives import Drive, DriveCollection
 from Models.Configs import ServerConfig
 
-def writeToFstabAndMount(mountString, mountPoint):
-    with open("/etc/fstab", "a") as fstab:
-        fstab.write(mountString + "\n")
-
+def CreateMountDirectory(mountPoint):
     dir = "/mnt/" + mountPoint
     if os.path.isdir(dir):  
         os.rmdir(dir)
     
     os.mkdir(dir)
 
-def getExt4MountString(drive: Drive):
-    fstabOptions = [
-        "UUID=" + drive.drive,
-        "/mnt/" + drive.mountPoint,
-        "ext4",
-        "defaults",
-        "0",
-        "1"
-    ]
+def AddExt4Entry(fstab: Fstab, drive: Drive):
+    fstab.entries.append(
+        Entry(
+            drive.drive,
+            "/mnt/" + drive.mountPoint,
+            "ext4",
+            "defaults",
+            0,
+            1
+        )
+    )
 
-    fstabEntry = '   '.join(fstabOptions)
+def AddCifsEntry(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
+    fstab.entries.append(
+        Entry(
+            f'//{serverConfig.nasIpAddress}/{drive.drive}',
+            "/mnt/" + {drive.mountPoint},
+            "cifs",
+            f'credentials={serverConfig.credentialsDirectory},uid=1000,gid=1000',
+            0,
+            0
+        )
+    )
 
-    return fstabEntry
-
-def getCifsMountString(drive: Drive, serverConfig: ServerConfig):
-    remoteDrive = f'//{serverConfig.nasIpAddress}/{drive.drive} '
-    localMount = f'/mnt/{drive.mountPoint} '
-    filetype = "cifs "
-    credentialsStr = f'credentials={serverConfig.credentialsDirectory}'
-    idStrings = ",uid=1000,gid=1000 0 0"
-
-    return remoteDrive + localMount + filetype + credentialsStr + idStrings
-
-def getIscsiMountString(drive: Drive, serverConfig: ServerConfig):
+def getIscsiMountString(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
     Command.IscsiTargetDiscovery(serverConfig.nasIpAddress)
     Command.IscsiLogin(drive.targetName, serverConfig.nasIpAddress)
-    return f'/dev/{drive.drive} /mnt/{drive.mountPoint} ext4 _netdev,rw 0 0'
 
-def setupSmbCredentials(config:ServerConfig):
+    fstab.entries.append(
+        Entry(
+            "/dev/" + {drive.drive},
+            "/mnt/" + {drive.mountPoint},
+            "ext4",
+            "_netdev,rw",
+            0,
+            0
+        )
+    )
+
+def setupSmbCredentials(config: ServerConfig):
     with open(config.credentialsDirectory, "w") as f:
         f.write(f"username={config.smbUsername}\n")
         f.write(f"password={config.smbPassword}\n")
@@ -50,16 +60,17 @@ def setupSmbCredentials(config:ServerConfig):
 def mountDrives(drives: DriveCollection, serverConfig: ServerConfig):
     setupSmbCredentials(serverConfig)
 
-    for drive in drives.ext4Drives:
-        mountString = getExt4MountString(drive)
-        writeToFstabAndMount(mountString, drive.mountPoint)
+    for drive in drives.ext4:
+        AddExt4Entry(drive)
+        CreateMountDirectory(drive.mountPoint)
 
-    for drive in drives.cifsDrives:
-        mountString = getCifsMountString(drive, serverConfig)
-        writeToFstabAndMount(mountString, drive.mountPoint)
+    for drive in drives.cifs:
+        AddCifsEntry(drive, serverConfig)
+        CreateMountDirectory(drive.mountPoint)
 
-    for drive in drives.iscsiDrives:
-        mountString = getIscsiMountString(drive, serverConfig)
-        writeToFstabAndMount(mountString, drive.mountPoint)
+    for drive in drives.iscsi:
+        getIscsiMountString(drive, serverConfig)
+        CreateMountDirectory(drive.mountPoint)
         Command.systemCtlReload()
-        Command.fstabMountDrives()
+    
+    Command.fstabMountDrives()

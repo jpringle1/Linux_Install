@@ -30,6 +30,7 @@ Themes.applyGrubTheme()
 FolderSyncing.syncKeyboardShortcuts()
 
 # TODO:
+# - Fix models not showing propeties in intellisense (DriverCollections)
 # - refactor grub editer
 # - setup symlinks
 # - setup folder syncs
