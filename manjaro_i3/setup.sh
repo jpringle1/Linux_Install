@@ -5,4 +5,4 @@ sudo zypper ref
 sudo zypper in -y gh
 sudo zypper in -y python311-GitPython
 sudo zypper in -y python311-PyYAML
-sudo python3 main.py
+sudo python3 program.py

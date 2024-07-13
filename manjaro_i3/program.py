@@ -1,18 +1,18 @@
 import os
-import Prerequisites
-import DriveMounting
-import Packages
-import SystemLinks
-import RemoveShutdownOptions
-import Themes
-import FolderSyncing
-from models.Drives import DriveCollection
-from models.Configs import ServerConfig, GitConfig
-from models import Packages
-from models.SymLinks import SymLinks
-from models.Syncs import Syncs
+from Scripts import Prerequisites
+from Scripts import DriveMounting
+from Scripts import Packages
+from Scripts import SystemLinks
+from Scripts import RemoveShutdownOptions
+from Scripts import FolderSyncing
+from Scripts import Themes
+from Models.Drives import DriveCollection
+from Models.Configs import ServerConfig, GitConfig
+from Models import Packages
+from Models.SymLinks import SymLinks
+from Models.Syncs import Syncs
 
-resourcesDir = os.getcwd() + "/resources/"
+resourcesDir = os.getcwd() + "/Resources/"
 
 Prerequisites.installAndConfigureGit(GitConfig(resourcesDir + "git"))
 

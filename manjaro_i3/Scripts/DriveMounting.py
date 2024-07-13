@@ -1,7 +1,7 @@
 import os
 import Command
-from models.Drives import Drive, DriveCollection
-from models.Configs import ServerConfig
+from Models.Drives import Drive, DriveCollection
+from Models.Configs import ServerConfig
 
 def writeToFstabAndMount(mountString, mountPoint):
     with open("/etc/fstab", "a") as fstab:

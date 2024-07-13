@@ -1,5 +1,5 @@
 import subprocess
-from models.Configs import GitConfig
+from Models.Configs import GitConfig
 
 def configureGit(gitConfig: GitConfig):
     subprocess.run(["git", "config", "--global", "user.email", gitConfig.email], check=True)
