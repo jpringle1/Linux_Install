@@ -1,9 +1,9 @@
 import os
 from pyfstab import Fstab, Entry
 
-from Scripts import Command
+from Scripts import Command, ConfigWriter
 from Models.Drives import Drive, DriveCollection
-from Models.Configs import ServerConfig
+from Models.Configs import ConfigOptions, ServerConfig
 
 def CreateMountDirectory(mountPoint):
     dir = "/mnt/" + mountPoint
@@ -51,14 +51,8 @@ def getIscsiMountString(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
         )
     )
 
-def setupSmbCredentials(config: ServerConfig):
-    with open(config.credentialsDirectory, "w") as f:
-        f.write(f"username={config.smbUsername}\n")
-        f.write(f"password={config.smbPassword}\n")
-        f.write(f"domain={config.smbDomain}")
-
 def mountDrives(drives: DriveCollection, serverConfig: ServerConfig):
-    setupSmbCredentials(serverConfig)
+    ConfigWriter.SetOptions(ConfigOptions.ConfigOptions("Resources/smbConfig"))
 
     for drive in drives.ext4:
         AddExt4Entry(drive)

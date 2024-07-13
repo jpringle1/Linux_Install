@@ -2,7 +2,7 @@ import json
 
 class ConfigOptions:
     def __init__(self, filepath: str) -> None:
-        jsonString = open(filepath)
+        jsonString = open(filepath + ".json")
         options = json.loads(jsonString)
         jsonString.close()
         self.filepath: str = options["filepath"]
