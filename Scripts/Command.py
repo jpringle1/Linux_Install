@@ -55,7 +55,7 @@ def refreshRepositories():
 def refreshGrub():
     subprocess.run([
         "sudo", 
-        "grub-mkconfig", 
+        "grub2-mkconfig", 
         "-o",
-        "/boot/grub/grub.cfg"],
+        "/boot/grub2/grub.cfg"],
         check=True)

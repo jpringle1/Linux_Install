@@ -19,18 +19,20 @@ resourcesDir = os.getcwd() + "/Resources/"
 
 Prerequisites.installAndConfigureGit(GitConfig(resourcesDir + "git"))
 
-drives = DriveCollection(resourcesDir + "drives")
-serverConfiguration = ServerConfig(resourcesDir + "serverConfig")
-DriveMounting.mountDrives(drives, serverConfiguration)
+DriveMounting.mountDrives(
+    DriveCollection(resourcesDir + "drives"), 
+    ServerConfig(resourcesDir + "serverConfig")
+)
 
 Packages.installPackages(Packages(resourcesDir + "packages"))
 SystemLinks.addAllSymlinks(SymLinks(resourcesDir + "symlinks"))
 ConfigWriter.SetOptions(ConfigOptions(resourcesDir + "ConfigOptions"))
-Themes.applyGrubTheme()
+Themes.applyGrubTheme(ConfigOptions(resourcesDir + "grubOptions"))
 FolderSyncing.syncKeyboardShortcuts()
 
 # TODO:
 # - Fix models not showing propeties in intellisense (DriverCollections)
+# - Test everything. Shit seems broken since i moved everything into models
 # - refactor grub editer
 # - setup symlinks
 # - setup folder syncs

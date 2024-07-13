@@ -1,0 +1,16 @@
+[
+    {
+        "filepath": "/etc/default/grub",
+        "section": "",
+        "option": "GRUB_THEME",
+        "value": "/usr/share/grub/themes/catppuccin-frappe-grub-theme/theme.txt",
+        "description": "Set grub theme"
+    },
+    {
+        "filepath": "/etc/default/grub",
+        "section": "",
+        "option": "GRUB_GFXMODE",
+        "value": "5120x1440",
+        "description": "Set grub resolution"
+    }
+]
