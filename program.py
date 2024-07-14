@@ -27,7 +27,6 @@ packages = Packages(resourcesDir + "packages")
 packages.refreshRepositories()
 packages.installPackages()
 
-Packages.installPackages(
 SystemLinks.addAllSymlinks(SymLinks(resourcesDir + "symlinks"))
 ConfigWriter.SetOptions(ConfigOptions(resourcesDir + "ConfigOptions"))
 Themes.applyGrubTheme(ConfigOptions(resourcesDir + "grubOptions"))

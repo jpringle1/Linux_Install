@@ -5,7 +5,7 @@ from pyfstab import Fstab, Entry
 from enum import Enum
 
 from typing import List
-from Scripts import Command, ConfigWriter
+from Scripts import ConfigWriter
 from Models.Configs import ConfigOptions, ServerConfig
 
 from typing import Optional
@@ -59,15 +59,15 @@ class DriveCollection:
         for drive in self.drives:
             match drive.driveType:
                 case DriveType.DriveType.Ext4:
-                    AddExt4Entry(drive)
-                    CreateMountDirectory(drive.mountPoint)
+                    self.AddExt4Entry(drive)
+                    self.CreateMountDirectory(drive.mountPoint)
                 case DriveType.DriveType.Cifs:
-                    AddCifsEntry(drive, serverConfig)
-                    CreateMountDirectory(drive.mountPoint)
+                    self.AddCifsEntry(drive, serverConfig)
+                    self.CreateMountDirectory(drive.mountPoint)
                 case DriveType.DriveType.Iscsi:
-                    AddIscsiEntry(drive, serverConfig)
-                    CreateMountDirectory(drive.mountPoint)
-                    Command.systemCtlReload()
+                    self.AddIscsiEntry(drive, serverConfig)
+                    self.CreateMountDirectory(drive.mountPoint)
+                    self.systemCtlReload()
         
     def mount():
         subprocess.run(["sudo", "mount", "-a"], check=True)
@@ -75,49 +75,80 @@ class DriveCollection:
     def setupSmbConfig(filepath):
         ConfigWriter.SetOptions(ConfigOptions.ConfigOptions("Resources/smbConfig"))
 
-def AddExt4Entry(fstab: Fstab, drive: Drive):
-    fstab.entries.append(
-        Entry(
-            drive.drive,
-            "/mnt/" + drive.mountPoint,
-            "ext4",
-            "defaults",
-            0,
-            1
+    def AddExt4Entry(fstab: Fstab, drive: Drive):
+        fstab.entries.append(
+            Entry(
+                drive.drive,
+                "/mnt/" + drive.mountPoint,
+                "ext4",
+                "defaults",
+                0,
+                1
+            )
         )
-    )
 
-def AddCifsEntry(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
-    fstab.entries.append(
-        Entry(
-            f'//{serverConfig.nasIpAddress}/{drive.drive}',
-            "/mnt/" + {drive.mountPoint},
-            "cifs",
-            f'credentials={serverConfig.credentialsDirectory},uid=1000,gid=1000',
-            0,
-            0
+    def AddCifsEntry(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
+        fstab.entries.append(
+            Entry(
+                f'//{serverConfig.nasIpAddress}/{drive.drive}',
+                "/mnt/" + {drive.mountPoint},
+                "cifs",
+                f'credentials={serverConfig.credentialsDirectory},uid=1000,gid=1000',
+                0,
+                0
+            )
         )
-    )
 
-def AddIscsiEntry(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
-    Command.IscsiTargetDiscovery(serverConfig.nasIpAddress)
-    Command.IscsiLogin(drive.targetName, serverConfig.nasIpAddress)
+    def AddIscsiEntry(self, fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
+        self.IscsiTargetDiscovery(serverConfig.nasIpAddress)
+        self.IscsiLogin(drive.targetName, serverConfig.nasIpAddress)
 
-    fstab.entries.append(
-        Entry(
-            "/dev/" + {drive.drive},
-            "/mnt/" + {drive.mountPoint},
-            "ext4",
-            "_netdev,rw",
-            0,
-            0
+        fstab.entries.append(
+            Entry(
+                "/dev/" + {drive.drive},
+                "/mnt/" + {drive.mountPoint},
+                "ext4",
+                "_netdev,rw",
+                0,
+                0
+            )
         )
-    )
 
-def CreateMountDirectory(mountPoint):
-    dir = "/mnt/" + mountPoint
-    if os.path.isdir(dir):  
-        os.rmdir(dir)
-    
-    os.mkdir(dir)
+    def CreateMountDirectory(mountPoint):
+        dir = "/mnt/" + mountPoint
+        if os.path.isdir(dir):  
+            os.rmdir(dir)
+        
+        os.mkdir(dir)
 
+    def IscsiTargetDiscovery(nasIpAddress):
+        subprocess.run([
+            "sudo", 
+            "iscsiadm", 
+            "-m", 
+            "discovery", 
+            "-t", 
+            "sendtargets", 
+            "-p", 
+            nasIpAddress],
+            check=True)
+
+    def IscsiLogin(targetName, nasIpAddress):
+        subprocess.run([
+            "sudo", 
+            "iscsiadm", 
+            "--mode", 
+            "node", 
+            "--targetname", 
+            targetName,
+            "--portal",
+            nasIpAddress,
+            "--login",
+            ],
+            check=True) 
+        
+    def IscsiFormatDrive(mountPoint):
+        subprocess.run(["sudo", "mkfs.ext4", "/dev/" + mountPoint], check=True) #I THINK THIS FORMATS THE DRIVE
+
+    def systemCtlReload():
+        subprocess.run(["systemctl", "daemon-reload"], check=True)
