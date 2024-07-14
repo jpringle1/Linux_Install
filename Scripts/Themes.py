@@ -1,21 +1,36 @@
+import json
 import shutil
 import os
-import Command
+import subprocess
 from git import Repo
 
 from Models.Configs import ConfigOptions
 from Scripts import ConfigWriter
 
-def applyGrubTheme(configOptions: ConfigOptions):
-    themesDirectory = "/usr/share/grub/themes"
-    repo_dir = "/home/joep/"
-    git_url = "https://github.com/catppuccin/grub.git"
+class Grub:
+    def __init__(
+            self, 
+            filepath: str) -> None:
+    
+        jsonString = open(filepath)
+        configOptions = json.loads(jsonString)
+        jsonString.close()
 
-    Repo.clone_from(git_url, repo_dir)
+        self.configOptions: ConfigOptions = configOptions
+        self.themesDirectory = "/usr/share/grub/themes"
+        self.repo_dir = "/home/joep/"
+        self.git_url = "https://github.com/catppuccin/grub.git"
 
-    os.mkdir(themesDirectory)
-    shutil.copy(repo_dir + "grub/src/*", themesDirectory)
+    def apply(self):
+        Repo.clone_from(self.git_url, self.repo_dir)
+        os.mkdir(self.themesDirectory)
+        shutil.copy(self.repo_dir + "grub/src/*", self.themesDirectory)
+        ConfigWriter.SetOptions(self.configOptions)
 
-    ConfigWriter.SetOptions(configOptions)
-
-    Command.refreshGrub()
+    def refreshGrub():
+        subprocess.run([
+            "sudo", 
+            "grub2-mkconfig", 
+            "-o",
+            "/boot/grub2/grub.cfg"],
+            check=True)

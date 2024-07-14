@@ -25,6 +25,7 @@ class Package:
                 self.zypperInstallPackage(self.package)
             case Repository.Repository.Flatpak:
                 self.flatpakInstallPackage(self.package)
+                
 class Packages:
     def __init__(
             self, 

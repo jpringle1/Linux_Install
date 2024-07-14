@@ -33,7 +33,11 @@ packages.installPackages()
 
 SystemLinks.addAllSymlinks(SymLinks(resourcesDir + "symlinks"))
 ConfigWriter.SetOptions(ConfigOptions(resourcesDir + "ConfigOptions"))
-Themes.applyGrubTheme(ConfigOptions(resourcesDir + "grubOptions"))
+
+grubTheme = Themes.Grub(resourcesDir + "grubOptions")
+grubTheme.apply()
+grubTheme.refreshGrub()
+
 FolderSyncing.syncKeyboardShortcuts()
 
 # TODO:
