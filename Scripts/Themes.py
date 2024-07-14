@@ -4,7 +4,7 @@ import os
 import subprocess
 from git import Repo
 
-from Models.Configs import ConfigOptions
+from Models import ConfigOptions
 from Scripts import ConfigWriter
 
 class Grub:

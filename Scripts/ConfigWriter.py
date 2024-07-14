@@ -1,5 +1,5 @@
 import configparser
-from Models.Configs import ConfigOptions
+from Models import ConfigOptions
     
 def SetOption(filepath, section, option, value):
     config = configparser.ConfigParser()

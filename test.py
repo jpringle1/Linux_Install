@@ -1,6 +1,7 @@
 import configparser
 
-from Models.Configs import ServerConfig, ConfigOptions
+from Models import ConfigOptions
+from Models.Configs import ServerConfig
 from Scripts import ConfigWriter
 
 def setupSmbCredentials(config: ServerConfig):

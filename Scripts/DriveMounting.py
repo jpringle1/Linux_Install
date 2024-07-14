@@ -5,8 +5,8 @@ from pyfstab import Fstab, Entry
 from enum import Enum
 
 from typing import List
-from Scripts import ConfigWriter
-from Models.Configs import ConfigOptions, ServerConfig
+from Scripts import ConfigWriter, ServerConfig
+from Models import ConfigOptions
 
 from typing import Optional
 
@@ -71,9 +71,6 @@ class DriveCollection:
         
     def mount():
         subprocess.run(["sudo", "mount", "-a"], check=True)
-
-    def setupSmbConfig(filepath):
-        ConfigWriter.SetOptions(ConfigOptions.ConfigOptions("Resources/smbConfig"))
 
     def AddExt4Entry(fstab: Fstab, drive: Drive):
         fstab.entries.append(

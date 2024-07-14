@@ -3,12 +3,12 @@ import os
 from Scripts.Git import Git
 from Scripts.DriveMounting import DriveCollection
 from Scripts.Packages import Packages
-from Scripts import SystemLinks
+from Scripts.ServerConfig import ServerConfig
 from Scripts.FolderSyncing import FolderSyncing
-from Scripts import Themes
+from Scripts import SystemLinks, Themes
 from Scripts import ConfigWriter
 
-from Models.Configs import ConfigOptions, ServerConfig
+from Models import ConfigOptions
 from Models.SymLinks import SymLinks
 
 resourcesDir = os.getcwd() + "/Resources/"
@@ -20,9 +20,9 @@ git.configure()
 git.authorise(envDir + ".gittoken")
 
 serverConfig = ServerConfig(resourcesDir + "serverConfig")
+serverConfig.setupSmbConfig(resourcesDir + "smbConfig")
 
 drives = DriveCollection(resourcesDir + "drives")
-drives.setupSmbConfig(resourcesDir + "smbConfig")
 drives.addFstabEntries(serverConfig)
 drives.mount()
 
