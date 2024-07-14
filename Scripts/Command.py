@@ -40,9 +40,6 @@ def IscsiFormatDrive(mountPoint):
 def systemCtlReload():
     subprocess.run(["systemctl", "daemon-reload"], check=True)
 
-def fstabMountDrives():
-    subprocess.run(["sudo", "mount", "-a"], check=True)
-
 def zypperInstallPackage(package):
     subprocess.run(["sudo", "zypper", "in", "-y", package], check=True)
 

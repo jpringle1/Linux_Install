@@ -1,16 +1,79 @@
+import json
 import os
+import subprocess
 from pyfstab import Fstab, Entry
+from enum import Enum
 
+from typing import List
 from Scripts import Command, ConfigWriter
-from Models.Drives import Drive, DriveCollection
 from Models.Configs import ConfigOptions, ServerConfig
 
-def CreateMountDirectory(mountPoint):
-    dir = "/mnt/" + mountPoint
-    if os.path.isdir(dir):  
-        os.rmdir(dir)
+from typing import Optional
+
+class DriveType(Enum):
+    Ext4 = 1,
+    Cifs = 2,
+    Iscsi = 3
+
+class Drive:
+    def __init__(
+            self, 
+            drive: str, 
+            mountPoint: str, 
+            driveType: DriveType, 
+            targetName: Optional[str] = None) -> None:
+        
+        self.drive = drive
+        self.mountPoint = mountPoint
+        self.driveType = driveType
+        self.targetName = targetName
+
+    def __repr__(self) -> str:
+        return f"Drive(drive={self.drive}, mountPoint={self.mountPoint}, driveType={self.driveType}, targetName={self.targetName})"
+
+class DriveCollection:
+    def __init__(
+            self, 
+            filepath: str) -> None:
+        
+        jsonString = open(filepath + ".json")
+        config = json.loads(jsonString)
+        jsonString.close()
+        
+        self.drives: List[Drive] = []
+
+        for entry in config:
+            driveType = entry["driveType"]
+            for drive in entry["drives"]:
+                driveObj = Drive(
+                    drive["drive"], 
+                    drive["mountPoint"], 
+                    drive[driveType],
+                    drive.get("targetName"))
+                self.drives.append(driveObj)
+
+    def __repr__(self) -> str:
+        return f"DriveCollection(drives={self.drives})"
     
-    os.mkdir(dir)
+    def addFstabEntries(self, serverConfig: ServerConfig):
+        for drive in self.drives:
+            match drive.driveType:
+                case DriveType.DriveType.Ext4:
+                    AddExt4Entry(drive)
+                    CreateMountDirectory(drive.mountPoint)
+                case DriveType.DriveType.Cifs:
+                    AddCifsEntry(drive, serverConfig)
+                    CreateMountDirectory(drive.mountPoint)
+                case DriveType.DriveType.Iscsi:
+                    AddIscsiEntry(drive, serverConfig)
+                    CreateMountDirectory(drive.mountPoint)
+                    Command.systemCtlReload()
+        
+    def mount():
+        subprocess.run(["sudo", "mount", "-a"], check=True)
+
+    def setupSmbConfig(filepath):
+        ConfigWriter.SetOptions(ConfigOptions.ConfigOptions("Resources/smbConfig"))
 
 def AddExt4Entry(fstab: Fstab, drive: Drive):
     fstab.entries.append(
@@ -36,7 +99,7 @@ def AddCifsEntry(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
         )
     )
 
-def getIscsiMountString(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
+def AddIscsiEntry(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
     Command.IscsiTargetDiscovery(serverConfig.nasIpAddress)
     Command.IscsiLogin(drive.targetName, serverConfig.nasIpAddress)
 
@@ -51,20 +114,10 @@ def getIscsiMountString(fstab: Fstab, drive: Drive, serverConfig: ServerConfig):
         )
     )
 
-def mountDrives(drives: DriveCollection, serverConfig: ServerConfig):
-    ConfigWriter.SetOptions(ConfigOptions.ConfigOptions("Resources/smbConfig"))
-
-    for drive in drives.ext4:
-        AddExt4Entry(drive)
-        CreateMountDirectory(drive.mountPoint)
-
-    for drive in drives.cifs:
-        AddCifsEntry(drive, serverConfig)
-        CreateMountDirectory(drive.mountPoint)
-
-    for drive in drives.iscsi:
-        getIscsiMountString(drive, serverConfig)
-        CreateMountDirectory(drive.mountPoint)
-        Command.systemCtlReload()
+def CreateMountDirectory(mountPoint):
+    dir = "/mnt/" + mountPoint
+    if os.path.isdir(dir):  
+        os.rmdir(dir)
     
-    Command.fstabMountDrives()
+    os.mkdir(dir)
+
