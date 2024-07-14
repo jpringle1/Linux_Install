@@ -18,7 +18,13 @@ class Package:
     
     def __repr__(self) -> str:
         return f"Package(packageName={self.packageName}, repository={self.repository})"
-
+    
+    def installPackage(self):
+        match self.package.repository:
+            case Repository.Repository.Zypper:
+                self.zypperInstallPackage(self.package)
+            case Repository.Repository.Flatpak:
+                self.flatpakInstallPackage(self.package)
 class Packages:
     def __init__(
             self, 
@@ -38,11 +44,7 @@ class Packages:
 
     def installPackages(self):
         for package in self.packages:
-            match package.repository:
-                case Repository.Repository.Zypper:
-                    self.zypperInstallPackage(package)
-                case Repository.Repository.Flatpak:
-                    self.flatpakInstallPackage(package)
+            package.installPackage()
 
     def refreshRepositories():
         subprocess.run(["sudo", "zypper", "--gpg-auto-import-keys" ,"ref"], check=True)

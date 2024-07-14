@@ -1,6 +1,6 @@
 import os
 
-from Scripts import Prerequisites
+from Scripts.Git import Git
 from Scripts.DriveMounting import DriveCollection
 from Scripts.Packages import Packages
 from Scripts import SystemLinks
@@ -8,13 +8,17 @@ from Scripts import FolderSyncing
 from Scripts import Themes
 from Scripts import ConfigWriter
 
-from Models.Configs import ConfigOptions, GitConfig, ServerConfig
+from Models.Configs import ConfigOptions, ServerConfig
 from Models.SymLinks import SymLinks
 from Models.Syncs import Syncs
 
 resourcesDir = os.getcwd() + "/Resources/"
+envDir = os.getcwd() + "/.env/"
 
-Prerequisites.installAndConfigureGit(GitConfig(resourcesDir + "git"))
+git = Git(resourcesDir + "git")
+git.install()
+git.configure()
+git.authorise(envDir + ".gittoken")
 
 serverConfig = ServerConfig(resourcesDir + "serverConfig")
 
