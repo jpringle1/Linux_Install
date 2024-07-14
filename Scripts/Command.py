@@ -40,15 +40,6 @@ def IscsiFormatDrive(mountPoint):
 def systemCtlReload():
     subprocess.run(["systemctl", "daemon-reload"], check=True)
 
-def zypperInstallPackage(package):
-    subprocess.run(["sudo", "zypper", "in", "-y", package], check=True)
-
-def flatpakInstallPackage(package):
-    subprocess.run(["flatpak", "-y", "install", package], check=True)
-
-def refreshRepositories():
-    subprocess.run(["sudo", "zypper", "--gpg-auto-import-keys" ,"ref"], check=True)
-
 def refreshGrub():
     subprocess.run([
         "sudo", 

@@ -1,16 +1,14 @@
 import os
-import pyfstab
 
 from Scripts import Prerequisites
 from Scripts.DriveMounting import DriveCollection
-from Scripts import Packages
+from Scripts.Packages import Packages
 from Scripts import SystemLinks
 from Scripts import FolderSyncing
 from Scripts import Themes
 from Scripts import ConfigWriter
 
 from Models.Configs import ConfigOptions, GitConfig, ServerConfig
-from Models.Packages import Packages
 from Models.SymLinks import SymLinks
 from Models.Syncs import Syncs
 
@@ -25,7 +23,11 @@ drives.setupSmbConfig(resourcesDir + "smbConfig")
 drives.addFstabEntries(serverConfig)
 drives.mount()
 
-Packages.installPackages(Packages(resourcesDir + "packages"))
+packages = Packages(resourcesDir + "packages")
+packages.refreshRepositories()
+packages.installPackages()
+
+Packages.installPackages(
 SystemLinks.addAllSymlinks(SymLinks(resourcesDir + "symlinks"))
 ConfigWriter.SetOptions(ConfigOptions(resourcesDir + "ConfigOptions"))
 Themes.applyGrubTheme(ConfigOptions(resourcesDir + "grubOptions"))
