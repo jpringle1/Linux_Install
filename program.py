@@ -4,13 +4,12 @@ from Scripts.Git import Git
 from Scripts.DriveMounting import DriveCollection
 from Scripts.Packages import Packages
 from Scripts import SystemLinks
-from Scripts import FolderSyncing
+from Scripts.FolderSyncing import FolderSyncing
 from Scripts import Themes
 from Scripts import ConfigWriter
 
 from Models.Configs import ConfigOptions, ServerConfig
 from Models.SymLinks import SymLinks
-from Models.Syncs import Syncs
 
 resourcesDir = os.getcwd() + "/Resources/"
 envDir = os.getcwd() + "/.env/"
@@ -38,7 +37,8 @@ grubTheme = Themes.Grub(resourcesDir + "grubOptions")
 grubTheme.apply()
 grubTheme.refreshGrub()
 
-FolderSyncing.syncKeyboardShortcuts()
+folderSyncing = FolderSyncing()
+folderSyncing.syncKeyboardShortcuts()
 
 # TODO:
 # - Fix models not showing propeties in intellisense (DriverCollections)
