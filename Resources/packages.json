@@ -1,0 +1,26 @@
+[
+    {
+        "repository": "zypper",
+        "packages": [
+            "git-core",
+            "gh",
+            "steam",
+            "thunderbird",
+            "open-iscsi",
+            "cifs-utils",
+            "filelight",
+            "digikam",
+            "qbittorrent",
+            "code"
+        ]
+    },
+    {
+        "repository": "flatpak",
+        "packages": [
+            "md.obsidian.Obsidian",
+            "com.protonvpn.www",
+            "me.proton.Pass",
+            "ch.protonmail.protonmail-bridge"
+        ]
+    }
+]
