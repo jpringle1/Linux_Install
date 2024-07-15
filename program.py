@@ -9,7 +9,6 @@ from Scripts.SystemLinks import SymLinks
 from Scripts.ConfigWriter import ConfigOptions
 from Scripts import Themes
 
-
 resourcesDir = os.getcwd() + "/Resources/"
 envDir = os.getcwd() + "/.env/"
 
@@ -42,11 +41,12 @@ folderSyncing = FolderSyncing()
 folderSyncing.syncKeyboardShortcuts()
 
 # TODO:
-# - Fix models not showing propeties in intellisense (DriverCollections)
 # - Test everything. Shit seems broken since i moved everything into models
+# - Fix models not showing propeties in intellisense (DriverCollections)
 
 # - setup symlinks
 # - setup folder syncs
+# - add "add repositories" function
 
 # - install iscsitools before mountDrives
 # - setup iscsi drive on boot (currently fstab entry bricks system)
