@@ -1,6 +1,3 @@
-import json
-import os
-
 from Scripts.Git import Git
 from Scripts.DriveMounting import DriveCollection
 from Scripts.Packages import Packages
@@ -9,56 +6,34 @@ from Scripts.FolderSyncing import FolderSyncing
 from Scripts.SystemLinks import SymLinks
 from Scripts.ConfigWriter import ConfigOptions
 from Scripts import Themes
+from Configuration import Configuration
 
 class main:
-    def __init__(self) -> None:
-        self.Resources = os.getcwd() + "/Resources/"
-        self.Env = os.getcwd() + "/.env/"
-        self.GitConfig = "gitConfig.json"
-        self.GitToken = ".gittoken"
-        self.ServerConfig = "serverConfig.json"
-        self.SmbConfig = "smbConfig.json"
-        self.Drives = "drives.json"
-        self.Packages = "packages.json"
-        self.SymLinks = "symLinks.json"
-        self.ConfigOptions = "configOptions.json"
-        self.GrubOptions = "grubOptions.json"
-
-    def read_json(file_path):
-        with open(file_path, 'r') as file:
-            return json.load(file)
-
     def main(self):
-        gitJson = self.read_json(self.Resources + self.GitConfig)
-        git = Git(gitJson)
+        config = Configuration()
+
+        git = Git(config.gitConfig)
         git.install()
         git.configure()
-        git.authorise(self.Env + self.GitToken)
+        git.authorise(config.gitToken)
 
-        serverConfigJson = self.read_json(self.Resources + self.ServerConfig)
-        smbConfigJson = self.read_json(self.Resources + self.SmbConfig)
-        serverConfig = ServerConfig(serverConfigJson)
-        serverConfig.setupSmbConfig(smbConfigJson)
+        serverConfig = ServerConfig(config.serverConfig)
+        serverConfig.setupSmbConfig(config.smbConfig)
 
-        drivesJson = self.read_json(self.Resources + self.Drives)
-        drives = DriveCollection(drivesJson)
+        drives = DriveCollection(config.drives)
         drives.addFstabEntries(serverConfig)
 
-        packagesJson = self.read_json(self.Resources + self.Packages)
-        packages = Packages(packagesJson)
+        packages = Packages(config.packages)
         packages.refreshRepositories()
         packages.installPackages()
 
-        symLinksJson = self.read_json(self.Resources + self.SymLinks)
-        symLinks = SymLinks(symLinksJson)
+        symLinks = SymLinks(config.symLinks)
         symLinks.createSymLinks()
 
-        configOptionsJson = self.read_json(self.Resources + self.ConfigOptions)
-        configOptions = ConfigOptions(configOptionsJson)
+        configOptions = ConfigOptions(config.configOptions)
         configOptions.SetOptions()
 
-        grubThemeJson = self.read_json(self.Resources + self.GrubOptions)
-        grubTheme = Themes.Grub(grubThemeJson)
+        grubTheme = Themes.Grub(config.grubOptions)
         grubTheme.apply()
         grubTheme.refreshGrub()
 
