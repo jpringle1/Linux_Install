@@ -27,13 +27,16 @@ class SymLink:
         print(commandExecution.close())
 
 class SymLinks:
-    def __init__(self, filepath: str) -> None:
-        with open(filepath, 'r') as file:
-            file = json.load(file + ".json")
+    def __init__(
+            self, 
+            filepath: str) -> None:
+        
+        with open(filepath + ".json", 'r') as file:
+            links = json.load(file)
         
         self.symLinks: List[SymLink] = []
         
-        for entry in file:
+        for entry in links:
             sourceDir = entry["sourceDirectory"]
             destinationDir = entry["destinationDirectory"]
             for link in entry:
