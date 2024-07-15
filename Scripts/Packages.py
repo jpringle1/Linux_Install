@@ -1,5 +1,4 @@
 import subprocess
-import json
 from typing import List
 from enum import Enum
 
@@ -18,7 +17,7 @@ class Package:
     
     def __repr__(self) -> str:
         return f"Package(packageName={self.packageName}, repository={self.repository})"
-    
+
     def installPackage(self):
         match self.repository:
             case Repository.Zypper:
@@ -35,14 +34,11 @@ class Package:
 class Packages:
     def __init__(
             self, 
-            filepath: str) -> None:
+            json_data: List[dict]) -> None:
         
-        with open(filepath, 'r') as file:
-            packageLoad = json.load(file)
-
         self.packages: List[Package] = []
 
-        for entry in packageLoad:
+        for entry in json_data:
             repository = entry["repository"]
             for package in entry["packages"]:
                 packageObj = Package(package, repository)

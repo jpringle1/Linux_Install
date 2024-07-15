@@ -1,3 +1,4 @@
+import json
 import os
 
 from Scripts.Git import Git
@@ -9,49 +10,72 @@ from Scripts.SystemLinks import SymLinks
 from Scripts.ConfigWriter import ConfigOptions
 from Scripts import Themes
 
-resourcesDir = os.getcwd() + "/Resources/"
-envDir = os.getcwd() + "/.env/"
+class main:
+    def __init__(self) -> None:
+        self.Resources = os.getcwd() + "/Resources/"
+        self.Env = os.getcwd() + "/.env/"
+        self.GitConfig = "gitConfig.json"
+        self.GitToken = ".gittoken"
+        self.ServerConfig = "serverConfig.json"
+        self.SmbConfig = "smbConfig.json"
+        self.Drives = "drives.json"
+        self.Packages = "packages.json"
+        self.SymLinks = "symLinks.json"
+        self.ConfigOptions = "configOptions.json"
+        self.GrubOptions = "grubOptions.json"
 
-git = Git(resourcesDir + "gitConfig")
-git.install()
-git.configure()
-git.authorise(envDir + ".gittoken")
+    def read_json(file_path):
+        with open(file_path, 'r') as file:
+            return json.load(file)
 
-serverConfig = ServerConfig(resourcesDir + "serverConfig")
-serverConfig.setupSmbConfig(resourcesDir + "smbConfig")
+    def main(self):
+        gitJson = self.read_json(self.Resources + self.GitConfig)
+        git = Git(gitJson)
+        git.install()
+        git.configure()
+        git.authorise(self.Env + self.GitToken)
 
-drives = DriveCollection(resourcesDir + "drives")
-drives.addFstabEntries(serverConfig)
+        serverConfigJson = self.read_json(self.Resources + self.ServerConfig)
+        smbConfigJson = self.read_json(self.Resources + self.SmbConfig)
+        serverConfig = ServerConfig(serverConfigJson)
+        serverConfig.setupSmbConfig(smbConfigJson)
 
-packages = Packages(resourcesDir + "packages")
-packages.refreshRepositories()
-packages.installPackages()
+        drivesJson = self.read_json(self.Resources + self.Drives)
+        drives = DriveCollection(drivesJson)
+        drives.addFstabEntries(serverConfig)
 
-symLinks = SymLinks(resourcesDir + "symlinks")
-symLinks.createSymLinks()
+        packagesJson = self.read_json(self.Resources + self.Packages)
+        packages = Packages(packagesJson)
+        packages.refreshRepositories()
+        packages.installPackages()
 
-configOptions = ConfigOptions(resourcesDir + "ConfigOptions")
-configOptions.SetOptions()
+        symLinksJson = self.read_json(self.Resources + self.SymLinks)
+        symLinks = SymLinks(symLinksJson)
+        symLinks.createSymLinks()
 
-grubTheme = Themes.Grub(resourcesDir + "grubOptions")
-grubTheme.apply()
-grubTheme.refreshGrub()
+        configOptionsJson = self.read_json(self.Resources + self.ConfigOptions)
+        configOptions = ConfigOptions(configOptionsJson)
+        configOptions.SetOptions()
 
-folderSyncing = FolderSyncing()
-folderSyncing.syncKeyboardShortcuts()
+        grubThemeJson = self.read_json(self.Resources + self.GrubOptions)
+        grubTheme = Themes.Grub(grubThemeJson)
+        grubTheme.apply()
+        grubTheme.refreshGrub()
 
-# TODO:
-# - Test everything. Shit seems broken since i moved everything into models
-# - Fix models not showing propeties in intellisense (DriverCollections)
+        folderSyncing = FolderSyncing()
+        folderSyncing.syncKeyboardShortcuts()
 
-# - setup symlinks
-# - setup folder syncs
-# - add "add repositories" function
+        # TODO:
+        # - Test everything. Shit seems broken since i moved everything into models
 
-# - refactor configuration file (resourcesDir and envDir, as well as config file names (serverConfig, drives, packages etc))
-# - setup gitignore
-# - remove secrets and pycache from github
+        # - setup symlinks
+        # - setup folder syncs
+        # - add "add repositories" function
 
-# - install iscsitools before mountDrives
-# - setup iscsi drive on boot (currently fstab entry bricks system)
-# - setup integration tests maybe?
+        # - refactor configuration file (resourcesDir and envDir, as well as config file names (serverConfig, drives, packages etc))
+        # - setup gitignore
+        # - remove secrets and pycache from github
+
+        # - install iscsitools before mountDrives
+        # - setup iscsi drive on boot (currently fstab entry bricks system)
+        # - setup integration tests maybe?
