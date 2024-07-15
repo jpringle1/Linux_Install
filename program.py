@@ -48,6 +48,10 @@ folderSyncing.syncKeyboardShortcuts()
 # - setup folder syncs
 # - add "add repositories" function
 
+# - refactor configuration file (resourcesDir and envDir, as well as config file names (serverConfig, drives, packages etc))
+# - setup gitignore
+# - remove secrets and pycache from github
+
 # - install iscsitools before mountDrives
 # - setup iscsi drive on boot (currently fstab entry bricks system)
 # - setup integration tests maybe?
