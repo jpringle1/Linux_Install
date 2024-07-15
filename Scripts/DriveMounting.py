@@ -3,12 +3,10 @@ import os
 import subprocess
 from pyfstab import Fstab, Entry
 from enum import Enum
-
 from typing import List
-from Scripts import ConfigWriter, ServerConfig
-from Models import ConfigOptions
-
 from typing import Optional
+
+from Scripts import ServerConfig
 
 class DriveType(Enum):
     Ext4 = 1,

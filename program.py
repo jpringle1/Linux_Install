@@ -5,11 +5,11 @@ from Scripts.DriveMounting import DriveCollection
 from Scripts.Packages import Packages
 from Scripts.ServerConfig import ServerConfig
 from Scripts.FolderSyncing import FolderSyncing
-from Scripts import SystemLinks, Themes
+from Scripts import Themes
 from Scripts import ConfigWriter
+from Scripts.SystemLinks import SymLinks
 
 from Models import ConfigOptions
-from Models.SymLinks import SymLinks
 
 resourcesDir = os.getcwd() + "/Resources/"
 envDir = os.getcwd() + "/.env/"
@@ -30,8 +30,11 @@ packages = Packages(resourcesDir + "packages")
 packages.refreshRepositories()
 packages.installPackages()
 
-SystemLinks.addAllSymlinks(SymLinks(resourcesDir + "symlinks"))
-ConfigWriter.SetOptions(ConfigOptions(resourcesDir + "ConfigOptions"))
+symLinks = SymLinks(resourcesDir + "symlinks")
+symLinks.createSymLinks()
+
+configOptions = ConfigOptions(resourcesDir + "ConfigOptions")
+ConfigWriter.SetOptions(configOptions)
 
 grubTheme = Themes.Grub(resourcesDir + "grubOptions")
 grubTheme.apply()

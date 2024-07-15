@@ -1,6 +1,6 @@
 import json
 
-from Models.ConfigOptions import ConfigOptions
+from Models.ConfigOptions import ConfigOption
 from Scripts import ConfigWriter
 
 class ServerConfig:
@@ -16,5 +16,5 @@ class ServerConfig:
         self.credentialsDirectory: str = config["credentialsDirectory"]
 
     def setupSmbConfig(filepath):
-        configOptions = ConfigOptions(filepath)
+        configOptions = ConfigOption(filepath)
         ConfigWriter.SetOptions(configOptions)

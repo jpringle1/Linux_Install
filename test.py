@@ -10,4 +10,4 @@ def setupSmbCredentials(config: ServerConfig):
         f.write(f"password={config.smbPassword}\n")
         f.write(f"domain={config.smbDomain}")
 
-ConfigWriter.SetOptions(ConfigOptions.ConfigOptions("Resources/smbConfig"))
+ConfigWriter.SetOptions(ConfigOptions.ConfigOption("Resources/smbConfig"))
