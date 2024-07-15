@@ -1,8 +1,6 @@
 import json
 from typing import List
 
-from Models.SymLinks import Directories
-
 class Sync:
     def __init__(self, program: str, local: str, remote: str) -> None:
         self.program = program
@@ -19,7 +17,7 @@ class Syncs:
         self.syncs: List[Sync] = []
         
         for sync in syncs:
-            syncObj = Directories(
+            syncObj = List(
                 sync["program"], 
                 sync["local"], 
                 sync["remote"]

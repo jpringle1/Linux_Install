@@ -1,13 +1,13 @@
 import json
 import subprocess
-from Packages import Package
+from Scripts.Packages import Package
 
 class Git:
   def __init__(
         self, 
         filepath: str) -> None:
       
-    jsonString = open(filepath)
+    jsonString = open(filepath + ".json")
     credentials = json.loads(jsonString)
     jsonString.close()
     

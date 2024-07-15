@@ -12,7 +12,7 @@ from Scripts import Themes
 resourcesDir = os.getcwd() + "/Resources/"
 envDir = os.getcwd() + "/.env/"
 
-git = Git(resourcesDir + "git")
+git = Git(resourcesDir + "gitConfig")
 git.install()
 git.configure()
 git.authorise(envDir + ".gittoken")

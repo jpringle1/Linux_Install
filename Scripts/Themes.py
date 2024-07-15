@@ -4,8 +4,7 @@ import os
 import subprocess
 from git import Repo
 
-from Models import ConfigOptions
-from Scripts import ConfigWriter
+from Scripts.ConfigWriter import ConfigOptions
 
 class Grub:
     def __init__(
@@ -25,7 +24,7 @@ class Grub:
         Repo.clone_from(self.git_url, self.repo_dir)
         os.mkdir(self.themesDirectory)
         shutil.copy(self.repo_dir + "grub/src/*", self.themesDirectory)
-        ConfigWriter.SetOptions(self.configOptions)
+        self.configOptions.SetOptions()
 
     def refreshGrub():
         subprocess.run([
