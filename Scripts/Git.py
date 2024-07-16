@@ -1,18 +1,15 @@
 import json
 import subprocess
+from typing import List
 from Scripts.Packages import Package
 
 class Git:
   def __init__(
         self, 
-        filepath: str) -> None:
+        json_data: dict) -> None:
       
-    jsonString = open(filepath + ".json")
-    credentials = json.loads(jsonString)
-    jsonString.close()
-    
-    self.email: str = credentials["email"]
-    self.name: str = credentials["name"]
+    self.email = json_data.get("email")
+    self.name = json_data.get("name")
 
     def __repr__(self) -> str:
         return f"Git(email={self.email}, name={self.name})"

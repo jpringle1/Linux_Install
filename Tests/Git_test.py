@@ -1,9 +1,23 @@
 import unittest
 from unittest.mock import Mock, mock_open
-from Scripts.Git import Subprocesses
+from Scripts.Git import Subprocesses, Git
 
 import unittest
 from unittest.mock import patch, call
+
+class TestGit(unittest.TestCase):
+    def test_init(self):
+        #Arrange
+        name = "joe"
+        email = "test@email.com"
+        credentialsJson = {"name": name, "email": email}
+
+        #Act
+        git = Git(credentialsJson)
+
+        #Assert
+        self.assertEqual(git.email, email)
+        self.assertEqual(git.name, name)
 
 class TestSubprocesses(unittest.TestCase): 
     @patch('subprocess.run')
