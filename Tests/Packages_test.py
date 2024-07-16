@@ -9,7 +9,7 @@ class TestPackage(unittest.TestCase):
     @patch('subprocess.run')
     def test_zypper_install_package(self, mock_run):
         # Arrange
-        package = Package("test-package", Repository.Zypper)
+        package = Package("test-package", "Zypper")
         
         # Act
         package.installPackage()
@@ -20,7 +20,7 @@ class TestPackage(unittest.TestCase):
     @patch('subprocess.run')
     def test_flatpak_install_package(self, mock_run):
         # Arrange
-        package = Package("test-package", Repository.Flatpak)
+        package = Package("test-package", "Flatpak")
         
         # Act
         package.installPackage()
@@ -29,17 +29,15 @@ class TestPackage(unittest.TestCase):
         mock_run.assert_called_once_with(["flatpak", "-y", "install", "test-package"], check=True)
 
 class TestPackages(unittest.TestCase):
-    @patch('builtins.open', new_callable=mock_open, read_data='[{"repository1": "Zypper", "packages": ["pkg1", "pkg2"]}, {"repository2": "Flatpak", "packages": ["pkg3"]}]')
-    @patch('json.load')
-    def test_init(self, mock_json_load, mock_open):
+    def test_init(self):
         # Arrange
-        mock_json_load.return_value = [
+        package_data = [
             {"repository": "Zypper", "packages": ["pkg1", "pkg2"]},
             {"repository": "Flatpak", "packages": ["pkg3"]}
         ]
-        
+
         # Act
-        packages = Packages('dummy_path')
+        packages = Packages(package_data)
         
         # Assert
         self.assertEqual(len(packages.packages), 3)
