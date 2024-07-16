@@ -18,13 +18,23 @@ class Git:
         return f"Git(email={self.email}, name={self.name})"
 
   def install():
-    Package("git-core", "zypper").installPackage()
-    Package("gh", "zypper").installPackage()
+    Package("git-core", "Zypper").installPackage()
+    Package("gh", "Zypper").installPackage()
 
   def configure(self):
-    subprocess.run(["git", "config", "--global", "user.email", self.email], check=True)
-    subprocess.run(["git", "config", "--global", "user.name", self.name], check=True)
+    Subprocesses.confgureGitEmail(self.email)
+    Subprocesses.confgureGitName(self.name)
 
   def authorise(self, token_filepath):
     with open(token_filepath, "r") as token_file:
-      subprocess.run(["gh", "auth", "login", "--with-token"], stdin=token_file, check=True)
+      Subprocesses.authoriseGit(token_file)
+
+class Subprocesses:
+  def confgureGitEmail(self, email: str):
+    subprocess.run(["git", "config", "--global", "user.email", email], check=True)
+
+  def configureGitName(self, name: str):
+    subprocess.run(["git", "config", "--global", "user.name", name], check=True)
+
+  def authoriseGit(self, token):
+      subprocess.run(["gh", "auth", "login", "--with-token"], stdin=token, check=True)

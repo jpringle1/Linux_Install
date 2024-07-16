@@ -9,24 +9,26 @@ class TestPackage(unittest.TestCase):
     @patch('subprocess.run')
     def test_zypper_install_package(self, mock_run):
         # Arrange
-        package = Package("test-package", "Zypper")
+        packageName = "test-package"
+        package = Package(packageName, "Zypper")
         
         # Act
         package.installPackage()
         
         # Assert
-        mock_run.assert_called_once_with(["sudo", "zypper", "in", "-y", "test-package"], check=True)
+        mock_run.assert_called_once_with(["sudo", "zypper", "in", "-y", packageName], check=True)
     
     @patch('subprocess.run')
     def test_flatpak_install_package(self, mock_run):
         # Arrange
-        package = Package("test-package", "Flatpak")
+        packageName = "test-package"
+        package = Package(packageName, "Flatpak")
         
         # Act
         package.installPackage()
         
         # Assert
-        mock_run.assert_called_once_with(["flatpak", "-y", "install", "test-package"], check=True)
+        mock_run.assert_called_once_with(["flatpak", "-y", "install", packageName], check=True)
 
 class TestPackages(unittest.TestCase):
     def test_init(self):
