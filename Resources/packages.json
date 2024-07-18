@@ -20,7 +20,8 @@
             "md.obsidian.Obsidian",
             "com.protonvpn.www",
             "me.proton.Pass",
-            "ch.protonmail.protonmail-bridge"
+            "ch.protonmail.protonmail-bridge",
+            "io.github.vemonet.EmojiMart"
         ]
     }
 ]
