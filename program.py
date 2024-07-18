@@ -10,30 +10,30 @@ from Configuration import Configuration
 
 class main:
     def main(self):
-        config = Configuration()
+        _config = Configuration()
 
-        git = Git(config.gitConfig)
+        git = Git(_config("gitConfig"))
         git.install()
         git.configure()
-        git.authorise(config.gitToken)
+        git.authorise(_config(".gittoken", ".env", "txt"))
 
-        serverConfig = ServerConfig(config.serverConfig)
-        serverConfig.setupSmbConfig(config.smbConfig)
+        serverConfig = ServerConfig(_config("serverConfig"))
+        serverConfig.setupSmbConfig(_config("smbConfig"))
 
-        drives = DriveCollection(config.drives)
+        drives = DriveCollection(_config("drives"))
         drives.addFstabEntries(serverConfig)
 
-        packages = Packages(config.packages)
+        packages = Packages(_config("packages"))
         packages.refreshRepositories()
         packages.installPackages()
 
-        symLinks = SymLinks(config.symLinks)
+        symLinks = SymLinks(_config("symLinks"))
         symLinks.createSymLinks()
 
-        configOptions = ConfigOptions(config.configOptions)
+        configOptions = ConfigOptions(_config("configOptions"))
         configOptions.SetOptions()
 
-        grubTheme = Themes.Grub(config.grubOptions)
+        grubTheme = Themes.Grub(_config("grubOptions"))
         grubTheme.apply()
         grubTheme.refreshGrub()
 
@@ -47,7 +47,6 @@ class main:
         # - setup folder syncs
         # - add "add repositories" function
 
-        # - refactor configuration file (resourcesDir and envDir, as well as config file names (serverConfig, drives, packages etc))
         # - setup gitignore
         # - remove secrets and pycache from github
 
