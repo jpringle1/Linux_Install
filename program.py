@@ -1,6 +1,6 @@
 from Scripts.Git import Git
 from Scripts.DriveMounting import DriveCollection
-from Scripts.Packages import Packages
+from Scripts.Packages.Package import PackageCollection
 from Scripts.ServerConfig import ServerConfig
 from Scripts.FolderSyncing import FolderSyncing
 from Scripts.SystemLinks import SymLinks
@@ -23,7 +23,7 @@ class main:
         drives = DriveCollection(_config("drives"))
         drives.addFstabEntries(serverConfig)
 
-        packages = Packages(_config("packages"))
+        packages = PackageCollection(_config("packages"))
         packages.refreshRepositories()
         packages.installPackages()
 
