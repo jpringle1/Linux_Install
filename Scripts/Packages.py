@@ -15,9 +15,6 @@ class Package:
         self.packageName: str = packageName
         self.repository: Repository = Repository[repository]
     
-    def __repr__(self) -> str:
-        return f"Package(packageName={self.packageName}, repository={self.repository})"
-
     def installPackage(self):
         match self.repository:
             case Repository.Zypper:
@@ -44,12 +41,6 @@ class Packages:
 
     def __getitem__(self, index: int) -> Package:
         return self.packages[index]
-
-    def __len__(self) -> int:
-        return len(self.packages)
-
-    def __str__(self):
-        return f"Packages({self.packages})"
 
 class Subprocesses:
     def zypperInstallPackage(self, packageName):

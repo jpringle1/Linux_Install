@@ -46,7 +46,7 @@ class TestPackages(unittest.TestCase):
         self.assertEqual(packages[2].repository, Repository.Flatpak)
     
     @patch('Scripts.Packages.Package.installPackage')
-    def test_installPackages_t(self, mock_installPackage):
+    def test_installPackages_callsInstallPackagesForEveryPackage(self, mock_installPackage):
         package_data = self.create_package_json()
         packages = Packages(package_data)
 
