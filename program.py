@@ -1,4 +1,4 @@
-from Scripts.Git import Git
+from Scripts.Git.Git import Git
 from Scripts.DriveMounting import DriveCollection
 from Scripts.Packages.Package import PackageCollection
 from Scripts.ServerConfig import ServerConfig

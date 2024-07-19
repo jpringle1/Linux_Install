@@ -1,21 +1,20 @@
-import unittest
-from unittest.mock import Mock, mock_open
-from Scripts.Git import Subprocesses, Git
+import pytest
+from unittest.mock import patch
 
-import unittest
-from unittest.mock import patch, call
-#look into magicMock
+from Scripts.Git.Git import Subprocesses, Git
 
-class TestGit(unittest.TestCase):
-    def test_init(self):
+# Test Git class
+class TestGit:
+    @pytest.fixture
+    def git_instance(self):
         name = "joe"
         email = "test@email.com"
         credentialsJson = {"name": name, "email": email}
+        return Git(credentialsJson)
 
-        git = Git(credentialsJson)
-
-        self.assertEqual(git.email, email)
-        self.assertEqual(git.name, name)
+    def test_init(self, git_instance):
+        assert git_instance.email == "test@email.com"
+        assert git_instance.name == "joe"
 
     @patch('Scripts.Packages.Package')
     def test_install(self, mock_installPackage):
@@ -24,27 +23,27 @@ class TestGit(unittest.TestCase):
         
         Git.install()
 
-        self.assertEqual(mock_installPackage.call_count, 2)
+        assert mock_installPackage.call_count == 2
         # TODO: assert that functions are called with correct packages
         mock_installPackage.assert_called_with(packages[0])
 
     @patch.object(Subprocesses, 'configureGitName')
     @patch.object(Subprocesses, 'configureGitEmail')
-    def test_configure(self, mock_configureGitEmail, mock_configureGitName):
+    def test_configure(self, mock_configureGitEmail, mock_configureGitName, git_instance):
         email = "test@example.com"
         name = "Test User"
 
-        git = Git(json_data)
-
-        git.configure()
+        git_instance.configure()
 
         mock_configureGitEmail.assert_called_once_with(email)
         mock_configureGitName.assert_called_once_with(name)
 
     def test_authorise(self):
-        self.fail("Not implemented")
+        pytest.fail("Not implemented")
 
-class TestSubprocesses(unittest.TestCase): 
+
+# Test Subprocesses class
+class TestSubprocesses:
     @patch('subprocess.run')
     def test_authoriseGit(self, mock_run):
         token = "token"
@@ -70,4 +69,4 @@ class TestSubprocesses(unittest.TestCase):
         
         subprocess.configureGitName(name)
         
-        mock_run.assert_called_once_with(["git", "config", "--global", "user.name", name], check=True)        
+        mock_run.assert_called_once_with(["git", "config", "--global", "user.name", name], check=True)

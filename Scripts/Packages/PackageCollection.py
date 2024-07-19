@@ -1,6 +1,6 @@
 from typing import List
 
-from Scripts.Git import Subprocesses as GitSubprocesses
+from Scripts.Git.Git import Subprocesses as GitSubprocesses
 from Scripts.Models.RepositorySet import RepositorySet
 from Scripts.Packages.Package import Package
 
