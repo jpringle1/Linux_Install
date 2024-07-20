@@ -1,0 +1,18 @@
+[
+    {
+        "filepath": "/home/joep/.config/ksmserverrc",
+        "sections": [
+            {
+                "section": "General",
+                "options":
+                [
+                    {
+                        "option": "confirmlogout",
+                        "value": "false",
+                        "description": "Remove Shutdown Options Popup"
+                    }
+                ]
+            }
+        ]
+    }
+]

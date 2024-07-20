@@ -6,6 +6,7 @@ from Scripts.FolderSyncing.FolderSyncs import FolderSyncs
 from Scripts.SystemLinkSetup.SymLinks import SymLinks
 from Scripts.ConfigEditing.ConfigOptionCollection import ConfigOptionCollection
 from Scripts.UserInterface.Grub import Grub
+from Scripts.UserInterface.Misc import Misc
 from Configuration import Configuration
 
 class main:
@@ -30,8 +31,8 @@ class main:
         symLinks = SymLinks(_config("symLinks"))
         symLinks.createSymLinks()
 
-        configOptions = ConfigOptionCollection(_config("configOptions"))
-        configOptions.SetOptions()
+        userInterface = Misc(_config("userInterfaceOptions"))
+        userInterface.SetOptions()
 
         grubTheme = Grub.Grub(_config("grubOptions"))
         grubTheme.apply()
@@ -41,15 +42,15 @@ class main:
         folderSyncing.syncKeyboardShortcuts()
 
         # TODO:
-        # - Test everything. Shit seems broken since i moved everything into models
+        # - Test everything.
+        #   - unit tests
+        #   - integration tests (docker and filepaths)
 
         # - setup symlinks
         # - setup folder syncs
         # - add "add repositories" function
 
-        # - setup gitignore
         # - remove secrets and pycache from github
 
         # - install iscsitools before mountDrives
         # - setup iscsi drive on boot (currently fstab entry bricks system)
-        # - setup integration tests maybe?
