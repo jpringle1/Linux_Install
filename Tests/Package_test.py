@@ -1,8 +1,8 @@
 import pytest
 from pytest_mock import mocker
-from Enums.Repository import Repository
-from Scripts.Packages.Package import Package
-from Scripts.Packages.PackageSubprocesses import PackageSubprocesses
+from Enums import Repository
+from Scripts.Packages import Package
+from Scripts.Packages import PackageSubprocesses
 
 def test_installPackage_whenGivenZypperPackage_callsZypperInstallPackage(mocker):
     packageName = "package-name"

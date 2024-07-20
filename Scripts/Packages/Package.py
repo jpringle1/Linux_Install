@@ -1,5 +1,5 @@
-from Enums.Repository import Repository
-from Scripts.Packages.PackageSubprocesses import PackageSubprocesses
+from Enums import Repository
+from Scripts.Packages import PackageSubprocesses
 
 class Package:
     def __init__(

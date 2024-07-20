@@ -1,10 +1,10 @@
 import json
 import pytest
 
-from Scripts.Git.GitSubprocesses import GitSubprocesses
-from Scripts.Git.Git import Git
-from Models.GitCredentials import GitCredentials
-from Scripts.Packages.Package import Package
+from Models import GitCredentials
+from Scripts.Git import GitSubprocesses
+from Scripts.Git import Git
+from Scripts.Packages import Package
 
 @pytest.fixture
 def git_credentials():

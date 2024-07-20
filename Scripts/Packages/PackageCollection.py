@@ -1,8 +1,8 @@
 from typing import List
 
-from Scripts.Git.GitSubprocesses import GitSubprocesses
-from Models.RepositorySet import RepositorySet
-from Scripts.Packages.Package import Package
+from Scripts.Git import GitSubprocesses
+from Scripts.Packages import Package
+from Models import RepositorySet
 
 class PackageCollection:
     def __init__(self, repoSetList: List[RepositorySet]) -> None:

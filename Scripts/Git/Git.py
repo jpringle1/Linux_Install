@@ -1,7 +1,7 @@
-from Enums.Repository import Repository
-from Scripts.Git.GitSubprocesses import GitSubprocesses
-from Models.GitCredentials import GitCredentials
-from Scripts.Packages.Package import Package
+from Enums import Repository
+from Models import GitCredentials
+from Scripts.Git import GitSubprocesses
+from Scripts.Packages import Package
 
 class Git:
   def __init__(

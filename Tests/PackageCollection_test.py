@@ -1,11 +1,11 @@
 import json
-from typing import List
 import pytest
 from pytest_mock import mocker
+from typing import List
 
-from Enums.Repository import Repository
-from Models.RepositorySet import RepositorySet
-from Scripts.Packages.PackageCollection import PackageCollection
+from Enums import Repository
+from Models import RepositorySet
+from Scripts.Packages import PackageCollection
 
 @pytest.fixture
 def create_repo_set():
