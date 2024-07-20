@@ -1,27 +1,22 @@
-import json
 from typing import List
 
+from Models.DriveSet import DriveSet
 from Scripts.DriveMounting import Drive, DriveSubprocesses
 
 class DriveCollection:
     def __init__(
             self, 
-            filepath: str) -> None:
-        
-        jsonString = open(filepath + ".json")
-        config = json.loads(jsonString)
-        jsonString.close()
+            driveSets: List[DriveSet]) -> None:
         
         self.drives: List[Drive] = []
 
-        for entry in config:
-            driveType = entry["driveType"]
-            for drive in entry["drives"]:
+        for driveSet in driveSets:
+            for driveModel in driveSet.drives:
                 driveObj = Drive(
-                    drive["drive"], 
-                    drive["mountPoint"], 
-                    drive[driveType],
-                    drive.get("targetName"))
+                    driveModel.drive, 
+                    driveModel.mountPoint, 
+                    driveSet.driveType,
+                    driveModel.targetName)
                 self.drives.append(driveObj)
 
     def __repr__(self) -> str:
