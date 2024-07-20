@@ -3,7 +3,7 @@ from Scripts.Packages import PackageCollection
 from Scripts.DriveMounting import DriveCollection
 from Scripts.ServerConfig import ServerConfig
 from Scripts.FolderSyncing import FolderSyncing
-from Scripts.SystemLinks import SymLinks
+from Scripts.SystemLinkSetup.SymLinks import SymLinks
 from Scripts.ConfigEditing.ConfigOptionCollection import ConfigOptionCollection
 from Scripts import Themes
 from Configuration import Configuration
