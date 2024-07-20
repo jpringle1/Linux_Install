@@ -2,32 +2,11 @@ import json
 import os
 import subprocess
 from pyfstab import Fstab, Entry
-from enum import Enum
 from typing import List
-from typing import Optional
 
 from Scripts import ServerConfig
-
-class DriveType(Enum):
-    Ext4 = 1,
-    Cifs = 2,
-    Iscsi = 3
-
-class Drive:
-    def __init__(
-            self, 
-            drive: str, 
-            mountPoint: str, 
-            driveType: DriveType, 
-            targetName: Optional[str] = None) -> None:
-        
-        self.drive = drive
-        self.mountPoint = mountPoint
-        self.driveType = driveType
-        self.targetName = targetName
-
-    def __repr__(self) -> str:
-        return f"Drive(drive={self.drive}, mountPoint={self.mountPoint}, driveType={self.driveType}, targetName={self.targetName})"
+from Enums import DriveType
+from Scripts.DriveMounting import Drive
 
 class DriveCollection:
     def __init__(
@@ -58,18 +37,14 @@ class DriveCollection:
             match drive.driveType:
                 case DriveType.DriveType.Ext4:
                     self.AddExt4Entry(drive)
-                    self.CreateMountDirectory(drive.mountPoint)
                 case DriveType.DriveType.Cifs:
                     self.AddCifsEntry(drive, serverConfig)
-                    self.CreateMountDirectory(drive.mountPoint)
                 case DriveType.DriveType.Iscsi:
                     self.AddIscsiEntry(drive, serverConfig)
-                    self.CreateMountDirectory(drive.mountPoint)
-                    self.systemCtlReload()
-        
-    def mount():
-        subprocess.run(["sudo", "mount", "-a"], check=True)
 
+            self.CreateMountDirectory(drive.mountPoint)
+            self.systemCtlReload()
+        
     def AddExt4Entry(fstab: Fstab, drive: Drive):
         fstab.entries.append(
             Entry(
@@ -115,35 +90,3 @@ class DriveCollection:
             os.rmdir(dir)
         
         os.mkdir(dir)
-
-    def IscsiTargetDiscovery(nasIpAddress):
-        subprocess.run([
-            "sudo", 
-            "iscsiadm", 
-            "-m", 
-            "discovery", 
-            "-t", 
-            "sendtargets", 
-            "-p", 
-            nasIpAddress],
-            check=True)
-
-    def IscsiLogin(targetName, nasIpAddress):
-        subprocess.run([
-            "sudo", 
-            "iscsiadm", 
-            "--mode", 
-            "node", 
-            "--targetname", 
-            targetName,
-            "--portal",
-            nasIpAddress,
-            "--login",
-            ],
-            check=True) 
-        
-    def IscsiFormatDrive(mountPoint):
-        subprocess.run(["sudo", "mkfs.ext4", "/dev/" + mountPoint], check=True) #I THINK THIS FORMATS THE DRIVE
-
-    def systemCtlReload():
-        subprocess.run(["systemctl", "daemon-reload"], check=True)
