@@ -12,10 +12,10 @@ class main:
     def main(self):
         _config = Configuration()
 
-        git = Git(_config("gitConfig"))
+        git = Git(_config("gitConfig", ".env"))
         git.install()
         git.configure()
-        git.authorise(_config(".gittoken", ".env", "txt"))
+        git.authorise()
 
         serverConfig = ServerConfig(_config("serverConfig"))
         serverConfig.setupSmbConfig(_config("smbConfig"))

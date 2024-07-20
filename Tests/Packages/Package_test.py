@@ -8,7 +8,6 @@ def test_installPackage_whenGivenZypperPackage_callsZypperInstallPackage(mocker)
     packageName = "package-name"
     repository = Repository.Zypper
     package = Package(packageName, repository)
-    
     mock_zypperInstallPackage = mocker.patch.object(PackageSubprocesses, 'zypperInstallPackage')
     
     package.installPackage()
@@ -19,9 +18,8 @@ def test_installPackage_whenGivenFlatpakPackage_callsFlatpakInstallPackage(mocke
     packageName = "package-name"
     repository = Repository.Flatpak
     package = Package(packageName, repository)
-    
     mock_flatpakInstallPackage = mocker.patch.object(PackageSubprocesses, 'flatpakInstallPackage')
-
+    
     package.installPackage()
     
     mock_flatpakInstallPackage.assert_called_once_with(packageName)
