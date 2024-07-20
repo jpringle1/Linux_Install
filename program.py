@@ -4,7 +4,7 @@ from Scripts.DriveMounting import DriveCollection
 from Scripts.ServerConfig import ServerConfig
 from Scripts.FolderSyncing import FolderSyncing
 from Scripts.SystemLinks import SymLinks
-from Scripts.ConfigWriter import ConfigOptions
+from Scripts.ConfigEditing.ConfigOptionCollection import ConfigOptionCollection
 from Scripts import Themes
 from Configuration import Configuration
 
@@ -30,7 +30,7 @@ class main:
         symLinks = SymLinks(_config("symLinks"))
         symLinks.createSymLinks()
 
-        configOptions = ConfigOptions(_config("configOptions"))
+        configOptions = ConfigOptionCollection(_config("configOptions"))
         configOptions.SetOptions()
 
         grubTheme = Themes.Grub(_config("grubOptions"))

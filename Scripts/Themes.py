@@ -4,7 +4,7 @@ import os
 import subprocess
 from git import Repo
 
-from Scripts.ConfigWriter import ConfigOptions
+from Scripts.ConfigEditing.ConfigOptionCollection import ConfigOptionCollection
 
 class Grub:
     def __init__(
@@ -15,7 +15,7 @@ class Grub:
         configOptions = json.loads(jsonString)
         jsonString.close()
 
-        self.configOptions: ConfigOptions = configOptions
+        self.configOptions: ConfigOptionCollection = configOptions
         self.themesDirectory = "/usr/share/grub/themes"
         self.repo_dir = "/home/joep/"
         self.git_url = "https://github.com/catppuccin/grub.git"

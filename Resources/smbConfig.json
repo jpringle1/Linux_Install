@@ -1,23 +1,26 @@
-[
-    {
-        "filepath": "/home/joep/.smbcredentials",
-        "section": "",
-        "option": "smbUsername",
-        "value": "joep",
-        "description": ""
-    },
-    {
-        "filepath": "/home/joep/.smbcredentials",
-        "section": "",
-        "option": "smbPassword",
-        "value": "j38pdh8pq9J",
-        "description": ""
-    },
-    {
-        "filepath": "/home/joep/.smbcredentials",
-        "section": "",
-        "option": "smbDomain",
-        "value": "WORKGROUP",
-        "description": ""
-    }
-]
+{
+    "filepath": "/home/joep/.smbcredentials",
+    "sections": [
+        {
+            "section": "",
+            "options":
+            [
+                {
+                    "option": "smbUsername",
+                    "value": "joep",
+                    "description": ""
+                },
+                {
+                    "option": "smbPassword",
+                    "value": "j38pdh8pq9J",
+                    "description": ""
+                },
+                {
+                    "option": "smbDomain",
+                    "value": "WORKGROUP",
+                    "description": ""
+                }
+            ]
+        }
+    ]
+}
