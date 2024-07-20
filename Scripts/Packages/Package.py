@@ -1,4 +1,4 @@
-from Scripts.Enums.Repository import Repository
+from Enums.Repository import Repository
 from Scripts.Packages.PackageSubprocesses import PackageSubprocesses
 
 class Package:

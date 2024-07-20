@@ -1,6 +1,6 @@
-from Scripts.Enums.Repository import Repository
+from Enums.Repository import Repository
 from Scripts.Git.GitSubprocesses import GitSubprocesses
-from Scripts.Models.GitCredentials import GitCredentials
+from Models.GitCredentials import GitCredentials
 from Scripts.Packages.Package import Package
 
 class Git:

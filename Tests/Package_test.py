@@ -1,6 +1,6 @@
 import pytest
 from pytest_mock import mocker
-from Scripts.Enums.Repository import Repository
+from Enums.Repository import Repository
 from Scripts.Packages.Package import Package
 from Scripts.Packages.PackageSubprocesses import PackageSubprocesses
 

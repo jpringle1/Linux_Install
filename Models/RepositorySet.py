@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from Scripts.Enums.Repository import Repository
+from Enums.Repository import Repository
 
 class RepositorySet:
     def __init__(self, json_data: dict) -> None:

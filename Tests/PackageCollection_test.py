@@ -3,8 +3,8 @@ from typing import List
 import pytest
 from pytest_mock import mocker
 
-from Scripts.Enums.Repository import Repository
-from Scripts.Models.RepositorySet import RepositorySet
+from Enums.Repository import Repository
+from Models.RepositorySet import RepositorySet
 from Scripts.Packages.PackageCollection import PackageCollection
 
 @pytest.fixture

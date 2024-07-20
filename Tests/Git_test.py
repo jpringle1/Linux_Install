@@ -3,7 +3,7 @@ import pytest
 
 from Scripts.Git.GitSubprocesses import GitSubprocesses
 from Scripts.Git.Git import Git
-from Scripts.Models.GitCredentials import GitCredentials
+from Models.GitCredentials import GitCredentials
 from Scripts.Packages.Package import Package
 
 @pytest.fixture
