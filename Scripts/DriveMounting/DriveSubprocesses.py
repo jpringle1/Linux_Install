@@ -1,6 +1,6 @@
 import subprocess
 
-class DriveSubprocess:
+class DriveSubprocesses:
     def IscsiTargetDiscovery(nasIpAddress):
         subprocess.run([
             "sudo", 
