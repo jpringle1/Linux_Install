@@ -2,10 +2,10 @@ from Scripts.Git import Git
 from Scripts.Packages import PackageCollection
 from Scripts.DriveMounting import DriveCollection
 from Scripts.ServerConfig import ServerConfig
-from Scripts.FolderSyncing import FolderSyncing
+from Scripts.FolderSyncing.FolderSyncs import FolderSyncs
 from Scripts.SystemLinkSetup.SymLinks import SymLinks
 from Scripts.ConfigEditing.ConfigOptionCollection import ConfigOptionCollection
-from Scripts import Themes
+from Scripts.UserInterface.Grub import Grub
 from Configuration import Configuration
 
 class main:
@@ -33,11 +33,11 @@ class main:
         configOptions = ConfigOptionCollection(_config("configOptions"))
         configOptions.SetOptions()
 
-        grubTheme = Themes.Grub(_config("grubOptions"))
+        grubTheme = Grub.Grub(_config("grubOptions"))
         grubTheme.apply()
         grubTheme.refreshGrub()
 
-        folderSyncing = FolderSyncing()
+        folderSyncing = FolderSyncs()
         folderSyncing.syncKeyboardShortcuts()
 
         # TODO:

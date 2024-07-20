@@ -18,5 +18,10 @@
         "program": "Digikam",
         "local": "~/.configs/digikam",
         "remote": "/mnt/LinuxSetup/Configs/Digikam"
+    },
+    {
+        "program": "Keyboard Shortcuts",
+        "local": "/home/joep/.config/kglobalshortcutsrc",
+        "remote": ""
     }
 ]

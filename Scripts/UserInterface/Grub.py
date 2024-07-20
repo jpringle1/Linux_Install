@@ -33,3 +33,11 @@ class Grub:
             "-o",
             "/boot/grub2/grub.cfg"],
             check=True)
+        
+    # Splash Screen
+    # Login Screen
+    # Konsole
+
+    # def setupKdeTheming(scriptDirectory):
+
+    # def removeShutdownLoginOptions
