@@ -1,53 +1,56 @@
-import os
-
 from Scripts.Git import Git
+from Scripts.Packages import PackageCollection
 from Scripts.DriveMounting import DriveCollection
-from Scripts.Packages import Packages
 from Scripts.ServerConfig import ServerConfig
-from Scripts.FolderSyncing import FolderSyncing
-from Scripts.SystemLinks import SymLinks
-from Scripts.ConfigWriter import ConfigOptions
-from Scripts import Themes
+from Scripts.FolderSyncing.FolderSyncs import FolderSyncs
+from Scripts.SystemLinkSetup.SymLinks import SymLinks
+from Scripts.ConfigEditing.ConfigOptionCollection import ConfigOptionCollection
+from Scripts.UserInterface.Grub import Grub
+from Scripts.UserInterface.Misc import Misc
+from Configuration import Configuration
 
-resourcesDir = os.getcwd() + "/Resources/"
-envDir = os.getcwd() + "/.env/"
+class main:
+    def main(self):
+        _config = Configuration()
 
-git = Git(resourcesDir + "git")
-git.install()
-git.configure()
-git.authorise(envDir + ".gittoken")
+        git = Git(_config("gitConfig", ".env"))
+        git.install()
+        git.configure()
+        git.authorise()
 
-serverConfig = ServerConfig(resourcesDir + "serverConfig")
-serverConfig.setupSmbConfig(resourcesDir + "smbConfig")
+        serverConfig = ServerConfig(_config("serverConfig"))
+        serverConfig.setupSmbConfig(_config("smbConfig"))
 
-drives = DriveCollection(resourcesDir + "drives")
-drives.addFstabEntries(serverConfig)
+        drives = DriveCollection(_config("drives"))
+        drives.addFstabEntries(serverConfig)
 
-packages = Packages(resourcesDir + "packages")
-packages.refreshRepositories()
-packages.installPackages()
+        packages = PackageCollection(_config("packages"))
+        packages.refreshRepositories()
+        packages.installPackages()
 
-symLinks = SymLinks(resourcesDir + "symlinks")
-symLinks.createSymLinks()
+        symLinks = SymLinks(_config("symLinks"))
+        symLinks.createSymLinks()
 
-configOptions = ConfigOptions(resourcesDir + "ConfigOptions")
-configOptions.SetOptions()
+        userInterface = Misc(_config("userInterfaceOptions"))
+        userInterface.SetOptions()
 
-grubTheme = Themes.Grub(resourcesDir + "grubOptions")
-grubTheme.apply()
-grubTheme.refreshGrub()
+        grubTheme = Grub.Grub(_config("grubOptions"))
+        grubTheme.apply()
+        grubTheme.refreshGrub()
 
-folderSyncing = FolderSyncing()
-folderSyncing.syncKeyboardShortcuts()
+        folderSyncing = FolderSyncs()
+        folderSyncing.syncKeyboardShortcuts()
 
-# TODO:
-# - Test everything. Shit seems broken since i moved everything into models
-# - Fix models not showing propeties in intellisense (DriverCollections)
+        # TODO:
+        # - Test everything.
+        #   - unit tests
+        #   - integration tests (docker and filepaths)
 
-# - setup symlinks
-# - setup folder syncs
-# - add "add repositories" function
+        # - setup symlinks
+        # - setup folder syncs
+        # - add "add repositories" function
 
-# - install iscsitools before mountDrives
-# - setup iscsi drive on boot (currently fstab entry bricks system)
-# - setup integration tests maybe?
+        # - remove secrets and pycache from github
+
+        # - install iscsitools before mountDrives
+        # - setup iscsi drive on boot (currently fstab entry bricks system)

@@ -3,7 +3,7 @@
         "driveType": "ext4",
         "drives": [
             {
-                "drive": "e955d6bb-556d-406b-8d40-f3f0c3e5dc3d",
+                "driveName": "e955d6bb-556d-406b-8d40-f3f0c3e5dc3d",
                 "mountPoint": "Games"
             }
         ]
@@ -12,23 +12,23 @@
         "driveType": "cifs",
         "drives": [
             {
-                "drive": "Obsidian/ObsidianPersonalVault",
+                "driveName": "Obsidian/ObsidianPersonalVault",
                 "mountPoint": "ObsidianVault"
             },
             {
-                "drive": "Media",
+                "driveName": "Media",
                 "mountPoint": "Media"
             },
             {
-                "drive": "VirtualMachines",
+                "driveName": "VirtualMachines",
                 "mountPoint": "VirtualMachines"
             },
             {
-                "drive": "Personal",
+                "driveName": "Personal",
                 "mountPoint": "Personal"
             },
             {
-                "drive": "LinuxSetup",
+                "driveName": "LinuxSetup",
                 "mountPoint": "LinuxSetup"
             }                     
         ]
@@ -37,7 +37,7 @@
         "driveType": "Iscsi",
         "drives": [
             {
-                "drive": "sdf",
+                "driveName": "sdf",
                 "mountPoint": "GamesNAS",
                 "targetName": "iqn.2000-01.com.synology:PringleNAS.Target-1.6f8b5604269"
             }

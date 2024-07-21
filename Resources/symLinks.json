@@ -1,43 +1,22 @@
 [
     {
-        "sourceDirectory": "/mnt/Media/",
-        "destinationDirectory": "",
-        "links": 
-        [
-            {
-                "sourceName": "Pictures",
-                "destinationName": ""
-            }
-        ]
+        "source": "/mnt/Media/Pictures",
+        "destination": ""
     },
     {
-        "sourceDirectory": "/mnt/Personal/",
-        "destinationDirectory": "",
-        "links": 
-        [
-            {
-                "sourceName": "Documents",
-                "destinationName": ""
-            },
-            {
-                "sourceName": "Downloads",
-                "destinationName": ""
-            }            
-        ]
+        "source": "/mnt/Personal/Documents",
+        "destination": ""
     },
     {
-        "sourceDirectory": "/mnt/LinuxSetup/Configs/",
-        "destinationDirectory": "",
-        "links": 
-        [
-            {
-                "sourceName": ".mozilla/firefox",
-                "destinationName": "Firefox"
-            },
-            {
-                "sourceName": ".steam",
-                "destinationName": "Steam"
-            }            
-        ]
-    }
+        "source": "/mnt/Personal/Downloads",
+        "destination": ""
+    },
+    {
+        "source": "/mnt/LinuxSetup/Configs/.mozilla/firefox",
+        "destination": "Firefox"
+    },
+    {
+        "source": "/mnt/LinuxSetup/Configs/.steam",
+        "destination": "Steam"
+    }            
 ]

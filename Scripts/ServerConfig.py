@@ -1,20 +1,14 @@
 import json
 
-from Models.ConfigOptions import ConfigOption
-from Scripts import ConfigWriter
+from Scripts.ConfigEditing.ConfigOptionCollection import ConfigOptionCollection
 
 class ServerConfig:
-    def __init__(
-            self, 
-            filepath: str) -> None:
+    def __init__(self, json_data: dict) -> None:
+        json_object = json.loads(json_data)
         
-        jsonString = open(filepath)
-        config = json.loads(jsonString)
-        jsonString.close()
-        
-        self.nasIpAddress: str = config["nasIpAddress"]
-        self.credentialsDirectory: str = config["credentialsDirectory"]
+        self.nasIpAddress: str = json_object["nasIpAddress"]
+        self.credentialsDirectory: str = json_object["credentialsDirectory"]
 
-    def setupSmbConfig(filepath):
-        configOptions = ConfigOption(filepath)
-        ConfigWriter.SetOptions(configOptions)
+    def setupSmbConfig(json_data: dict):
+        configOptions = ConfigOptionCollection(json_data)
+        configOptions.SetOptions()

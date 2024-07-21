@@ -1,0 +1,27 @@
+[
+    {
+        "program": "Obsidian",
+        "local": "~/ObsidianVault",
+        "remote": "/mnt/ObsidianVault/"
+    },
+    {
+        "program": "Firefox",
+        "local": "~/.mozilla/firefox",
+        "remote": "/mnt/LinuxSetup/Configs/firefox"
+    },
+    {
+        "program": "Steam",
+        "local": "~/.steam",
+        "remote": "/mnt/LinuxSetup/Configs/.steam"
+    },
+    {
+        "program": "Digikam",
+        "local": "~/.configs/digikam",
+        "remote": "/mnt/LinuxSetup/Configs/Digikam"
+    },
+    {
+        "program": "Keyboard Shortcuts",
+        "local": "/home/joep/.config/kglobalshortcutsrc",
+        "remote": ""
+    }
+]
